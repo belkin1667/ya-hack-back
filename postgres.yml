@@ -1,0 +1,10 @@
+version: '3.1'
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: ya-hack
+      POSTGRES_USER: ya-hack-user
+      POSTGRES_PASSWORD: ya-hack-password
+    ports:
+      - 5432:5432
