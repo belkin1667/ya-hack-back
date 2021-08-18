@@ -3,9 +3,9 @@ package com.belkin.yahack.security;
 import javax.crypto.SecretKey;
 
 import com.belkin.yahack.api.ExceptionHandlerFilter;
-import com.belkin.yahack.security.jwt.JwtAuthenticationFilter;
+import com.belkin.yahack.security.api.JwtAuthenticationFilter;
 import com.belkin.yahack.security.jwt.JwtConfig;
-import com.belkin.yahack.security.jwt.JwtTokenVerifier;
+import com.belkin.yahack.security.api.JwtTokenVerifier;
 import com.belkin.yahack.security.service.ApplicationUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
