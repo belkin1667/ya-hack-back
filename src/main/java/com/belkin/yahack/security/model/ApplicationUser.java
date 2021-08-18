@@ -31,8 +31,7 @@ public class ApplicationUser implements UserDetails {
     }
 
     @Setter
-    @Id
-    @Column(columnDefinition = "VARCHAR")
+    @Id @Column(columnDefinition = "VARCHAR")
     private String username;
 
     @Getter @Setter

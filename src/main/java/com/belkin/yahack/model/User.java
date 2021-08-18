@@ -8,10 +8,9 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 @Slf4j
 @Getter @Setter
@@ -20,40 +19,19 @@ import lombok.extern.slf4j.Slf4j;
 @Table(name = "myuser")
 public class User {
 
-    private final String DEFAULT_PROFILE_PHOTO_URL = "";
-    private final ProfileAccess DEFAULT_PROFILE_ACCESS = ProfileAccess.ALL;
+    @Value("${model.user.defaultProfilePhotoUrl}")
+    private String DEFAULT_PROFILE_PHOTO_URL;
 
-    @NonNull
     @Column(columnDefinition = "VARCHAR")
     @Id private String username;
 
-    @Column(columnDefinition = "VARCHAR")
-    private String phone;
-
-    @Column(columnDefinition = "VARCHAR")
-    private String title;
-
-    @Column(columnDefinition = "VARCHAR")
-    private String description;
-
-    @NonNull
     @Column(name = "profile_id", columnDefinition = "VARCHAR")
     private String profilePhotoUrl = DEFAULT_PROFILE_PHOTO_URL;
-
-    @NonNull
-    @Column(name = "profile_access")
-    private ProfileAccess profileAccess = DEFAULT_PROFILE_ACCESS;
 
     public User(String username) {
         log.info("Creating user...");
 
         this.username = username;
-    }
-
-    public enum ProfileAccess {
-        ALL,
-        NONE,
-        MUTUAL_FOLLOWERS
     }
 }
 
