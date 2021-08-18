@@ -1,18 +1,38 @@
-package com.belkin.yahack.security.jwt;
+package com.belkin.yahack.security.api;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 
+import com.belkin.yahack.security.dto.MyHttpServletRequestWrapper;
 import com.belkin.yahack.security.exception.JwtTokenCanNotBeTrustedException;
+import com.belkin.yahack.security.jwt.JwsDecoder;
+import com.belkin.yahack.security.jwt.JwtConfig;
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -52,11 +72,16 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                     .collect(Collectors.toSet());
             Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, simpleGrantedAuthoritySet);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            MyHttpServletRequestWrapper wrappedRequest = new MyHttpServletRequestWrapper(request);
+            wrappedRequest.addHeader("Username", getRequesterUsername(authorizationHeader));
+            request = wrappedRequest;
+
             log.info("JWS Token is valid");
         } catch (RuntimeException e) {
             throw new JwtTokenCanNotBeTrustedException(token);
         }
-        filterChain.doFilter(request, response); //todo как-то пробросить username в request чтобы не просить везде Authentication Header?
+        filterChain.doFilter(request, response); // todo как-то пробросить username в request чтобы не просить везде Authentication Header?
     }
 
     public String getRequesterUsername(String authorizationHeader) {
@@ -71,4 +96,8 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
         return username;
     }
+
+
+
+
 }

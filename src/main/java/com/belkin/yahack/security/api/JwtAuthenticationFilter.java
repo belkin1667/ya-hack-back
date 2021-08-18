@@ -1,4 +1,4 @@
-package com.belkin.yahack.security.jwt;
+package com.belkin.yahack.security.api;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.belkin.yahack.security.dto.AuthenticationRequest;
+import com.belkin.yahack.security.jwt.JwtConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
