@@ -1,7 +1,12 @@
 package com.belkin.yahack.model;
 
-import java.util.Base64;
+import java.util.List;
 
 public class InteractivePoll extends InteractiveItem {
+
+    String question;
+    List<String> options;
+    boolean multipleOptions;
+    List<Integer> correctAnswers;
 
 }

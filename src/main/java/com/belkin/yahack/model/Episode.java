@@ -14,4 +14,6 @@ public class Episode { // <item> tag in RSS feed
     String title;
 
     List<InteractiveItem> items; //OneToMany
+
+    boolean published; // can edit items while not published, as soon as published can't edit items
 }
