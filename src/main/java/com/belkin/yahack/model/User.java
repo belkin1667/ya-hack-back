@@ -25,7 +25,7 @@ public class User {
     @Column(columnDefinition = "VARCHAR")
     @Id private String username;
 
-    @Column(name = "profile_id", columnDefinition = "VARCHAR")
+    @Column(name = "profile_photo_url", columnDefinition = "VARCHAR")
     private String profilePhotoUrl = DEFAULT_PROFILE_PHOTO_URL;
 
     public User(String username) {

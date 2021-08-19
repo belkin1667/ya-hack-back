@@ -1,4 +1,4 @@
-package com.belkin.yahack.api.dto;
+package com.belkin.yahack.api.dto.response;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
