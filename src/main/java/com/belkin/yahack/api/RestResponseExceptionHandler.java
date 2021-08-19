@@ -2,7 +2,7 @@ package com.belkin.yahack.api;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.belkin.yahack.api.dto.ExceptionResponse;
+import com.belkin.yahack.api.dto.response.ExceptionResponse;
 import com.belkin.yahack.exception.MyRestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

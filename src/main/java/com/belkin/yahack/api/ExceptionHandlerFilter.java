@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.belkin.yahack.api.dto.ExceptionResponse;
+import com.belkin.yahack.api.dto.response.ExceptionResponse;
 import com.belkin.yahack.exception.MyRestException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
