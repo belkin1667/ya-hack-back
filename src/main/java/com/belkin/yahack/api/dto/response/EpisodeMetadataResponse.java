@@ -26,6 +26,7 @@ public class EpisodeMetadataResponse {
     private Integer length;
     private String url;
     private String description;
-    private List<String> itemIds;
+    private List<InteractiveItemResponse> items;
 
+    private boolean published;
 }
