@@ -6,6 +6,8 @@ import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
 import com.belkin.yahack.api.dto.response.InteractiveImageButtonResponse;
 import com.belkin.yahack.api.dto.response.InteractivePollResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
+import com.belkin.yahack.serivce.ListenService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/podcasts")
 public class ListenController {
 
+    private final ListenService listenService;
+
     @GetMapping
     public List<String> getPodcastsIds() {
-        return List.of("Podcasts", "ids", "here");
+        return listenService.getPodcastIdList();
     }
 
     @GetMapping("/{base64id}")
