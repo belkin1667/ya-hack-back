@@ -57,10 +57,12 @@ dependencies {
 	compileOnly "org.projectlombok:lombok:1.18.20"
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-	// Rome Rss Reader
-	implementation 'rome:rome:1.0'
-	implementation group: 'com.rometools', name: 'rome-modules', version: '1.16.0'
-
+	// Http client (Rss Reader)
+	implementation 'org.apache.httpcomponents:httpclient:4.5'
+	// XML parser (Rss Reader)
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.4'
+	// Quartz (Rss Reader)
+	implementation 'org.quartz-scheduler:quartz:2.3.2'
 
 }
 
