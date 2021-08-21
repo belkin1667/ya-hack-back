@@ -29,8 +29,6 @@ public class User {
     private String profilePhotoUrl = DEFAULT_PROFILE_PHOTO_URL;
 
     public User(String username) {
-        log.info("Creating user...");
-
         this.username = username;
     }
 }

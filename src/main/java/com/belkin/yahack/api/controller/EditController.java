@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
 import com.belkin.yahack.api.dto.request.InteractivePollRequest;
-import com.belkin.yahack.api.dto.request.RssRequest;
+import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
 import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
 import com.belkin.yahack.api.dto.response.InteractiveImageButtonResponse;
 import com.belkin.yahack.api.dto.response.InteractivePollResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
+import com.belkin.yahack.serivce.PodcastManagementService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,22 +18,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/edit/podcasts")
+@RequiredArgsConstructor
 public class EditController {
 
+    private final PodcastManagementService podcastManagementService;
+
     @PostMapping
-    public void addNewRss(@RequestBody RssRequest rssRequest) {
-        // check that rssUrl has https, not http in its url
+    public void addNewRss(@RequestBody PodcastCreationRequest podcastCreationRequest, @RequestHeader("username") String author) {
+        podcastManagementService.addPodcast(podcastCreationRequest, author);
     }
 
     @GetMapping
-    public List<String> getMyPodcastsIds() {
-        return List.of("Podcast", "ids", "here");
+    public List<String> getMyPodcastsIds(@RequestHeader("username") String author) {
+        return podcastManagementService.getMyPodcastsIds(author);
     }
 
     @GetMapping("/{base64id}")

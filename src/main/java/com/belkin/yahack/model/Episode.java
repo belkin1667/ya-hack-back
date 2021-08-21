@@ -8,6 +8,9 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -38,6 +41,11 @@ public class Episode {
     private String url;
     private String description;
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name="podcast_id")
+    Podcast podcast;
+
 
 //    @OneToMany(targetEntity=InteractiveItem.class, fetch= FetchType.LAZY)
    // private List<InteractiveItem> items;

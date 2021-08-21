@@ -1,5 +1,6 @@
 package com.belkin.yahack.model;
 
+import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,14 @@ import java.util.List;
 @Table(name = "podcast")
 public class Podcast {
 
+    public Podcast(PodcastCreationRequest podcast, String author) {
+        this.rss = podcast.getRss();
+        this.title = podcast.getTitle();
+        this.description = podcast.getDescription();
+        this.author = author;
+        this.episodes = new ArrayList<>();
+    }
+
     /**
      * base64-ID
      * <p>
@@ -31,7 +40,7 @@ public class Podcast {
     @Id
     @GenericGenerator(name = "base64_id", strategy = "com.belkin.yahack.model.generator.Base64Generator")
     @GeneratedValue(generator = "base64_id")
-    @Column(name = "podcast_id", columnDefinition = "VARCHAR")
+    @Column(name = "id", columnDefinition = "VARCHAR")
     private String id;
 
     /**
@@ -49,8 +58,8 @@ public class Podcast {
     private String link;
     private String imageUrl;
 
-    @OneToMany(targetEntity = Episode.class, fetch = FetchType.LAZY)
-    private List<Episode> episodes = new ArrayList<>();
+    @OneToMany(mappedBy = "podcast", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Episode> episodes;// = new ArrayList<>();
 
     public void addEpisodes(List<Episode> newEpisodes) {
         episodes.addAll(newEpisodes);
