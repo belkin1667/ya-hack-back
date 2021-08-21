@@ -16,11 +16,6 @@ public class ListenService {
     private final PodcastDAO podcastDao;
 
     public List<String> getPodcastIdList() {
-        Podcast podcast1 = new Podcast();
-        podcast1.setAuthor("fds");
-        podcast1.setDescription("123");
-        podcastDao.save(podcast1);
-
         List<String> podcastIds = new ArrayList<>();
         podcastDao.findAll().forEach(podcast -> podcastIds.add(podcast.getId().toString()));
         return podcastIds;

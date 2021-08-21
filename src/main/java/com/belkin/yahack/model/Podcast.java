@@ -1,6 +1,5 @@
 package com.belkin.yahack.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,8 +23,10 @@ public class Podcast {
      * Generated on first object creation
      */
     @Id
+//    @GenericGenerator(name = "base64_id", strategy = "com.belkin.yahack.model.generator.Base64Generator")
+//    @GeneratedValue(generator = "base64_id")
+    // TODO: to base64
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // TODO: Change type to string (aka base64)
     private Integer id;
 
     /**
