@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.List;
 
+
 /**
  * Entity of Episode, contains collection of {@link InteractiveItem}
  * <p>
@@ -16,7 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Episode {
 
-    // Get from RSS
+    public Episode(Integer id) {
+        this.id = id;
+        this.published = false;
+    }
 
     /**
      * The position (0 .. inf) of <item> tag in RSS feed

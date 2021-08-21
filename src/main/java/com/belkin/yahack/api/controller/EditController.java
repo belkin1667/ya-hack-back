@@ -26,7 +26,7 @@ public class EditController {
 
     @PostMapping
     public void addNewRss(@RequestBody RssRequest rssRequest) {
-
+        // check that rssUrl has https, not http in its url
     }
 
     @GetMapping

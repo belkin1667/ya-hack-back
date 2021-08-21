@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+
 /**
  * Entity of Podcast, contains collection of {@link Episode}
  * <p>
@@ -43,11 +44,10 @@ public class Podcast {
     // Get from RSS
     private String link;
     private String imageUrl;
-    private String generator;
-    private String lastBuildDate;
 
 //    @OneToMany(targetEntity = Episode.class,
 //            fetch = FetchType.LAZY)
 //    private List<Episode> episodes;
+
 
 }
