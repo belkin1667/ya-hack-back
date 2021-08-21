@@ -6,8 +6,10 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @Getter @Setter
-public class RssRequest {
+public class PodcastCreationRequest {
 
     private String rss;
+    private String title;
+    private String description;
 
 }
