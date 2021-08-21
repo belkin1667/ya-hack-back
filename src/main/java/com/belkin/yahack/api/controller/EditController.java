@@ -42,14 +42,12 @@ public class EditController {
 
     @GetMapping("/{base64id}")
     public PodcastMetadataResponse getPodcastMetadata(@PathVariable("base64id") String podcastId,
-                                                      @RequestParam(value = "preview", defaultValue = "false") Boolean preview) {
-        PodcastMetadataResponse response;
+                                                      @RequestParam(value = "preview", defaultValue = "false") Boolean preview,
+                                                      @RequestHeader("username") String username) {
         if (preview)
-            response = new PodcastMetadataResponse(podcastId, "Тайтл", "хттпс://имагеурл.хир/айди");
+            return podcastManagementService.getPodcastPreview(podcastId, username);
         else
-            response = new PodcastMetadataResponse(podcastId, "Тайтл",  "хттпс://имагеурл.хир/айди", "Описание", List.of(1, 2, 3));
-
-        return response;
+            return podcastManagementService.getPodcast(podcastId, username);
     }
 
 

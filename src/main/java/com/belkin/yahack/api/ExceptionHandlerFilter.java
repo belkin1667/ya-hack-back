@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.belkin.yahack.api.dto.response.ExceptionResponse;
-import com.belkin.yahack.exception.MyRestException;
+import com.belkin.yahack.exception.RestException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         }
-        catch (MyRestException e) {
+        catch (RestException e) {
             log.warn("4xx error occurred. Message: " + e.getMessage() + ". Status: " + e.getStatus().value() + " " + e.getStatus().getReasonPhrase());
 
             ExceptionResponse exceptionResponse = new ExceptionResponse(e.getStatus(), e.getMessage(), request.getServletPath());

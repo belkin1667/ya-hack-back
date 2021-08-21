@@ -8,10 +8,10 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @Getter @Setter
-public class PollAnswerResponse {
+public class InteractivePollAnswerResponse {
 
     //todo уточнить у фронтов что им нужно
-    public PollAnswerResponse(String id, List<Integer> stats) {
+    public InteractivePollAnswerResponse(String id, List<Integer> stats) {
         this.id = id;
         this.stats = stats;
     }

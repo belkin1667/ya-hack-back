@@ -3,7 +3,7 @@ package com.belkin.yahack.api;
 import javax.servlet.http.HttpServletRequest;
 
 import com.belkin.yahack.api.dto.response.ExceptionResponse;
-import com.belkin.yahack.exception.MyRestException;
+import com.belkin.yahack.exception.RestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,8 +17,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = MyRestException.class)
-    protected ResponseEntity<Object> handleMyRestException(MyRestException exception, HttpServletRequest request) {
+    @ExceptionHandler(value = RestException.class)
+    protected ResponseEntity<Object> handleMyRestException(RestException exception, HttpServletRequest request) {
         log.warn("4xx error occurred. Message: " + exception.getMessage() + ". Status: " + exception.getStatus().value() + " " + exception.getStatus().getReasonPhrase());
 
         ExceptionResponse apiError = new ExceptionResponse(exception.getStatus(), exception.getMessage(), request.getServletPath());
