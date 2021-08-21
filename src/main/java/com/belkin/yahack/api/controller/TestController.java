@@ -1,8 +1,9 @@
 package com.belkin.yahack.api.controller;
 
 import com.belkin.yahack.model.Podcast;
-import com.belkin.yahack.serivce.RssUpdater;
+import com.belkin.yahack.serivce.rss.RssUpdater;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -14,10 +15,10 @@ public class TestController {
 
     private final RssUpdater rssUpdater;
 
-    @PostMapping("/test/rss")
+    @PostMapping(value = "/test/rss", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Podcast testRssReader() {
         Podcast podcast = new Podcast();
-        podcast.setId("id");
+        podcast.setId(1);
         podcast.setRss("https://anchor.fm/s/2ea5680/podcast/rss");
         rssUpdater.update(podcast);
         return podcast;

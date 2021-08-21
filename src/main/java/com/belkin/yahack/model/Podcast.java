@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,9 +47,11 @@ public class Podcast {
     private String link;
     private String imageUrl;
 
-//    @OneToMany(targetEntity = Episode.class,
-//            fetch = FetchType.LAZY)
-//    private List<Episode> episodes;
+    @OneToMany(targetEntity = Episode.class, fetch = FetchType.LAZY)
+    private List<Episode> episodes = new ArrayList<>();
 
+    public void addEpisodes(List<Episode> newEpisodes) {
+        episodes.addAll(newEpisodes);
+    }
 
 }
