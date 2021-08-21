@@ -1,22 +1,22 @@
 package com.belkin.yahack.model.generator;
 
 import org.hibernate.HibernateException;
-import org.hibernate.MappingException;
-import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.id.Configurable;
-import org.hibernate.id.IdentityGenerator;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.type.Type;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.IdentifierGenerator;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Base64;
-import java.util.Properties;
 import java.util.UUID;
 
-public class Base64Generator extends IdentityGenerator implements Configurable {
+/**
+ * Generates base64 ID of type {@link String}
+ */
+public class Base64Generator implements IdentifierGenerator {
 
-    public Serializable generate(SessionImplementor session, Object object) throws HibernateException {
+    //TODO: add unique id check
+    @Override
+    public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         // Create random UUID
         UUID uuid = UUID.randomUUID();
 
@@ -27,11 +27,6 @@ public class Base64Generator extends IdentityGenerator implements Configurable {
                 .array();
 
         // Encode to Base64 and remove trailing ==
-        return Base64.getUrlEncoder().encodeToString(src);
-    }
-
-
-    @Override
-    public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) throws MappingException {
+        return Base64.getUrlEncoder().encodeToString(src).substring(0, 22);
     }
 }
