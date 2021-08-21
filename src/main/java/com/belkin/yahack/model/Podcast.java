@@ -1,28 +1,53 @@
 package com.belkin.yahack.model;
 
-import java.util.List;
-
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
-public class Podcast { //<channel> tag in RSS feed
+import javax.persistence.*;
+import java.util.List;
 
-    // Generated on first object creation
-    String id;
 
-    // Updated when RSS feed updated
-    String lastUpdatedTime;
+/**
+ * Entity of Podcast, contains collection of {@link Episode}
+ * <p>
+ * {@literal <}channel{@literal >} tag in RSS feed
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "podcast")
+public class Podcast {
+
+    /**
+     * Generated on first object creation
+     */
+    @Id
+//    @GenericGenerator(name = "base64_id", strategy = "com.belkin.yahack.model.generator.Base64Generator")
+//    @GeneratedValue(generator = "base64_id")
+    // TODO: to base64
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    /**
+     * Updated when RSS feed updated
+     */
+    private String lastUpdatedTime;
 
     // Get from user
-    String title;
-    String author;
-    String description;
-    String rss;
+    private String title;
+    private String author;
+    private String description;
+    private String rss;
 
     // Get from RSS
-    String link; //link
-    String imageUrl; //image.url
-    List<Episode> episodes; //OneToMany
+    private String link;
+    private String imageUrl;
+
+//    @OneToMany(targetEntity = Episode.class,
+//            fetch = FetchType.LAZY)
+//    private List<Episode> episodes;
+
 
 }

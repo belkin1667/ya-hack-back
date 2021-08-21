@@ -1,27 +1,40 @@
 package com.belkin.yahack.model;
 
-import java.util.List;
-
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
-public class Episode { // <item> tag in RSS feed
+import java.util.List;
+
+
+/**
+ * Entity of Episode, contains collection of {@link InteractiveItem}
+ * <p>
+ * {@literal <}item{@literal >} tag in RSS feed
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+public class Episode {
 
     public Episode(Integer id) {
         this.id = id;
         this.published = false;
     }
-    // Get from RSS
-    Integer id; // The position (0 .. inf) of <item> tag in RSS feed //pos in entries arr
-    Long duration; //entries[0].foreignMarkup[2]
-    Long length; //entries[0].enclosures[0].length
-    String pubDate; //entries[0].modules[0].date
-    String url; //entries[0].enclosures[0].url
-    String description; //entries[0].description.value
-    String title; //entries[0].title
 
-    List<InteractiveItem> items; //OneToMany
+    /**
+     * The position (0 .. inf) of <item> tag in RSS feed
+     */
+    private Integer episodeNumber;
+    private Integer duration;
+    private Integer length;
+    private String pubDate;
+    private String url;
+    private String description;
+    private String title;
 
-    boolean published; // can edit items while not published, as soon as published can't edit items
+//    @OneToMany(targetEntity=InteractiveItem.class, fetch= FetchType.LAZY)
+    private List<InteractiveItem> items;
+
+    private boolean published; // can edit items while not published, as soon as published can't edit items
 }
