@@ -34,17 +34,32 @@ public class StartupRunner implements ApplicationRunner {
         user.setPassword("pass");
         applicationUserService.register(user, ApplicationUserRole.USER);
 
+        log.info("Creating user 'user2'");
+        user = new RegistrationRequest();
+        user.setUsername("user2");
+        user.setPassword("pass");
+        applicationUserService.register(user, ApplicationUserRole.USER);
+
         log.info("Creating user 'author'");
         RegistrationRequest author = new RegistrationRequest();
         author.setUsername("author");
         author.setPassword("pass");
         applicationUserService.register(author, ApplicationUserRole.AUTHOR);
+
+        log.info("Creating user 'author2'");
+        author = new RegistrationRequest();
+        author.setUsername("author2");
+        author.setPassword("pass");
+        applicationUserService.register(author, ApplicationUserRole.AUTHOR);
     }
 
-
     private void generateMockPodcasts() {
-        log.info("Creating podcast 'Test podcast'");
-        PodcastCreationRequest podcast = new PodcastCreationRequest("https://anchor.fm/s/2ea5680/podcast/rss", "Test podcast", "Very cool test podcast");
+        log.info("Creating podcast 'Test podcast 1' as 'author'");
+        PodcastCreationRequest podcast = new PodcastCreationRequest("https://anchor.fm/s/2ea5680/podcast/rss", "Test podcast 1", "Very cool test podcast 1");
         podcastManagementService.addPodcast(podcast, "author");
+
+        log.info("Creating podcast 'Test podcast 2' as 'author2'");
+        podcast = new PodcastCreationRequest("https://anchor.fm/s/67cae600/podcast/rss", "Test podcast 2", "Very cool test podcast 2");
+        podcastManagementService.addPodcast(podcast, "author2");
     }
 }

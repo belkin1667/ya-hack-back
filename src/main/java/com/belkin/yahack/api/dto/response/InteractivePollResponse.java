@@ -3,8 +3,8 @@ package com.belkin.yahack.api.dto.response;
 import java.util.List;
 
 import com.belkin.yahack.model.InteractivePoll;
-import lombok.Getter;
 import lombok.Setter;
+import lombok.Getter;
 
 @Getter @Setter
 public class InteractivePollResponse extends InteractiveItemResponse {
@@ -14,7 +14,6 @@ public class InteractivePollResponse extends InteractiveItemResponse {
         this.question = poll.getQuestion();
         this.options = poll.getOptions();
         this.multipleOptions = poll.isMultipleOptions();
-        this.correctAnswers = poll.getCorrectAnswers();
     }
 
     public InteractivePollResponse(String id, Integer timeStart, Integer timeEnd, String type,  String question, List<String> options, boolean multipleOptions, List<Integer> correctAnswers) {
@@ -22,11 +21,9 @@ public class InteractivePollResponse extends InteractiveItemResponse {
         this.question = question;
         this.options = options;
         this.multipleOptions = multipleOptions;
-        this.correctAnswers = correctAnswers;
     }
 
     private String question;
     private List<String> options;
     private boolean multipleOptions;
-    private List<Integer> correctAnswers;
 }

@@ -1,9 +1,9 @@
-package com.belkin.yahack.exception.notfound;
+package com.belkin.yahack.exception.not_found;
 
-import com.belkin.yahack.exception.MyRestException;
+import com.belkin.yahack.exception.RestException;
 import org.springframework.http.HttpStatus;
 
-public class ResourceNotFoundException extends MyRestException {
+public class ResourceNotFoundException extends RestException {
 
     public ResourceNotFoundException(String resource) {
         super(HttpStatus.NOT_FOUND, "Resource '" + resource + "' not found");

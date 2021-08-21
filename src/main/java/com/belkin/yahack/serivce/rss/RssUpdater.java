@@ -48,6 +48,8 @@ public class RssUpdater {
         List<Episode> episodes = podcast.getEpisodes();
         List<Episode> newEpisodes = new ArrayList<>();
         List<RssEpisode> rssEpisodes = feed.getEpisodes();
+        if (rssEpisodes == null || rssEpisodes.size() == 0)
+            return;
         for (RssEpisode rssEpisode : rssEpisodes) {
             Optional<Episode> maybeEpisode = episodes.stream().filter(e -> e.getGuid().equals(rssEpisode.getGuid())).findFirst();
             if (maybeEpisode.isEmpty()) {

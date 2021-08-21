@@ -3,7 +3,7 @@ package com.belkin.yahack.api.controller;
 import java.util.List;
 
 import com.belkin.yahack.api.dto.request.PollAnswerRequest;
-import com.belkin.yahack.api.dto.response.PollAnswerResponse;
+import com.belkin.yahack.api.dto.response.InteractivePollAnswerResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,10 +26,10 @@ public class StatisticsController {
     }
 
     @PostMapping("/polls/{base64id}")
-    public PollAnswerResponse processPollAnswer(@PathVariable("base64id") String pollId,
-                                                @RequestBody PollAnswerRequest pollAnswer) {
+    public InteractivePollAnswerResponse processPollAnswer(@PathVariable("base64id") String pollId,
+                                                           @RequestBody PollAnswerRequest pollAnswer) {
 
-        return new PollAnswerResponse(pollId, List.of(33, 12, 55));
+        return new InteractivePollAnswerResponse(pollId, List.of(33, 12, 55));
     }
 
 }
