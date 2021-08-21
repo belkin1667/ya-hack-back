@@ -3,6 +3,7 @@ package com.belkin.yahack.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -23,14 +24,15 @@ import java.util.List;
 public class Podcast {
 
     /**
+     * base64-ID
+     * <p>
      * Generated on first object creation
      */
     @Id
-//    @GenericGenerator(name = "base64_id", strategy = "com.belkin.yahack.model.generator.Base64Generator")
-//    @GeneratedValue(generator = "base64_id")
-    // TODO: to base64
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GenericGenerator(name = "base64_id", strategy = "com.belkin.yahack.model.generator.Base64Generator")
+    @GeneratedValue(generator = "base64_id")
+    @Column(name = "podcast_id", columnDefinition = "VARCHAR")
+    private String id;
 
     /**
      * Updated when RSS feed updated
