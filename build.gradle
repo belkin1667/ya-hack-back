@@ -57,6 +57,11 @@ dependencies {
 	compileOnly "org.projectlombok:lombok:1.18.20"
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
+	// Rome Rss Reader
+	implementation 'rome:rome:1.0'
+	implementation group: 'com.rometools', name: 'rome-modules', version: '1.16.0'
+
+
 }
 
 test {

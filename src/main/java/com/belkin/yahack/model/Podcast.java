@@ -2,6 +2,10 @@ package com.belkin.yahack.model;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class Podcast { //<channel> tag in RSS feed
 
     // Generated on first object creation
@@ -17,10 +21,8 @@ public class Podcast { //<channel> tag in RSS feed
     String rss;
 
     // Get from RSS
-    String link;
-    String imageUrl;
-    String generator;
-    String lastBuildDate;
+    String link; //link
+    String imageUrl; //image.url
     List<Episode> episodes; //OneToMany
 
 }
