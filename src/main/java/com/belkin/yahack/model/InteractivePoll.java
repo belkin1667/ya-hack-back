@@ -2,17 +2,24 @@ package com.belkin.yahack.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Getter @Setter
+@Entity
+@Table(name="interactive_poll")
+@NoArgsConstructor
 public class InteractivePoll extends InteractiveItem {
 
     String question;
-    List<String> options;
+    String options; //List<String>
     boolean multipleOptions;
-    List<Integer> correctAnswers;
+    String correctAnswers; //List<Integer>
 
 }
 
