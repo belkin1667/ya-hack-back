@@ -18,7 +18,7 @@ public class InteractivePollResponse extends InteractiveItemResponse {
     public InteractivePollResponse(InteractivePoll poll) {
         super(poll.getId(), poll.getTimeStart(), poll.getTimeEnd(), "poll");
         this.question = poll.getQuestion();
-        this.options = List.of(poll.getOptions());
+        this.options = poll.getOptions();
         this.multipleOptions = poll.isMultipleOptions();
     }
 
