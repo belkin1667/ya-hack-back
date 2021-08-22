@@ -59,7 +59,7 @@ public class Podcast {
     private String imageUrl;
 
     @OneToMany(mappedBy = "podcast", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Episode> episodes;// = new ArrayList<>();
+    private List<Episode> episodes;
 
     public void addEpisodes(List<Episode> newEpisodes) {
         episodes.addAll(newEpisodes);

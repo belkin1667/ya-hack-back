@@ -6,11 +6,14 @@ import lombok.Setter;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -44,11 +47,11 @@ public class Episode {
 
     @ManyToOne
     @JoinColumn(name="podcast_id")
-    Podcast podcast;
+    private Podcast podcast;
 
 
-//    @OneToMany(targetEntity=InteractiveItem.class, fetch= FetchType.LAZY)
-   // private List<InteractiveItem> items;
+    @OneToMany(mappedBy = "episode", fetch= FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<InteractiveItem> items;
 
     private boolean published; // can edit items while not published, as soon as published can't edit items
 }

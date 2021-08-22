@@ -1,7 +1,10 @@
 package com.belkin.yahack.api.dto.response;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.belkin.yahack.model.Episode;
+import com.belkin.yahack.model.Podcast;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +16,14 @@ import lombok.ToString;
 @AllArgsConstructor
 public class PodcastMetadataResponse {
 
-    //todo уточнить у фронтов что им нужно в превью и в фулл
+    public PodcastMetadataResponse(Podcast podcast) {
+        this.id = podcast.getId();
+        this.title = podcast.getTitle();
+        this.imageUrl = podcast.getImageUrl();
+        this.description = podcast.getDescription();
+        this.episodeGuids = podcast.getEpisodes().stream().map(Episode::getGuid).collect(Collectors.toList());
+    }
+
     public PodcastMetadataResponse(String id, String title, String imageUrl) {
         this.id = id;
         this.title = title;
@@ -25,5 +35,5 @@ public class PodcastMetadataResponse {
     private String imageUrl;
 
     private String description;
-    private List<Integer> episodeIds;
+    private List<String> episodeGuids;
 }

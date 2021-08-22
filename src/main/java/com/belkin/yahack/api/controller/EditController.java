@@ -58,17 +58,13 @@ public class EditController {
 
     @GetMapping("/{base64id}/{id}")
     public EpisodeMetadataResponse getEpisodeMetadata(@PathVariable("base64id") String podcastId,
-                                                      @PathVariable("id") Integer episodeId,
+                                                      @PathVariable("id") Integer episodeNumber,
                                                       @RequestParam(value = "preview", defaultValue = "false") Boolean preview) {
         EpisodeMetadataResponse response;
         if (preview)
-            response = new EpisodeMetadataResponse(podcastId, episodeId, "Тайтл", 123);
+            response = null;
         else
-            response = new EpisodeMetadataResponse(podcastId, episodeId, "Тайтл", 123, 456, "хттпс://мп3урл.хир/айди", "Описание",
-                    List.of(new InteractiveImageButtonResponse("GatQLL04CNgR", 0, 5, "imagebutton", "https://upload.wikimedia.org/wikipedia/commons/1/17/Vladimir_Putin_%282018-03-01%29_03_%28cropped%29.jpg", "Buy now!", "https://google.com/"),
-                            new InteractivePollResponse("GatgLL04DNgR", 5, 10, "poll", "Где хочешь жить?", List.of("Moscow", "London", "Los Angeles"), false, List.of(1)),
-                            new InteractiveImageButtonResponse("GdtCLL04CNgR", 10, 15, "image", "https://upload.wikimedia.org/wikipedia/commons/1/17/Vladimir_Putin_%282018-03-01%29_03_%28cropped%29.jpg", null, null),
-                            new InteractiveImageButtonResponse("GdtALL04CNgR", 15, 17, "button", null, "Buy now!", "https://google.com/")), false);
+            response = null;
 
         return response;
     }
@@ -76,14 +72,14 @@ public class EditController {
 
     @PostMapping("/{base64id}/{id}/imagebutton")
     public String addInteractiveImageButton(@PathVariable("base64id") String podcastId,
-                                            @PathVariable("id") Integer episodeId,
+                                            @PathVariable("id") Integer episodeNumber,
                                             @RequestBody InteractiveImageButtonRequest imageButtonRequest) {
         return "generated id here";
     }
 
     @PostMapping("/{base64id}/{id}/poll")
     public String addInteractivePoll(@PathVariable("base64id") String podcastId,
-                                     @PathVariable("id") Integer episodeId,
+                                     @PathVariable("id") Integer episodeNumber,
                                      @RequestBody InteractivePollRequest pollRequest) {
         return "generated id here";
     }
@@ -91,7 +87,7 @@ public class EditController {
 
     @PutMapping("/{base64id}/{id}/imagebutton/{base64idItem}")
     public void editInteractiveImageButton(@PathVariable("base64id") String podcastId,
-                                            @PathVariable("id") Integer episodeId,
+                                            @PathVariable("id") Integer episodeNumber,
                                             @PathVariable("base64idItem") String itemId,
                                             @RequestBody InteractiveImageButtonRequest imageButtonRequest) {
         /* В Request Body должны быть указаны только изменяемые поля */
@@ -100,7 +96,7 @@ public class EditController {
 
     @PutMapping("/{base64id}/{id}/poll/{base64idItem}")
     public void editInteractivePoll(@PathVariable("base64id") String podcastId,
-                                          @PathVariable("id") Integer episodeId,
+                                          @PathVariable("id") Integer episodeNumber,
                                           @PathVariable("base64idItem") String itemId,
                                           @RequestBody InteractivePollRequest imageButtonRequest) {
         /* В Request Body должны быть указаны только изменяемые поля */
@@ -109,7 +105,7 @@ public class EditController {
 
     @PatchMapping("/{base64id}/{id}/imagebutton/{base64idItem}")
     public void updateInteractiveImageButton(@PathVariable("base64id") String podcastId,
-                                           @PathVariable("id") Integer episodeId,
+                                           @PathVariable("id") Integer episodeNumber,
                                            @PathVariable("base64idItem") String itemId,
                                            @RequestBody InteractiveImageButtonRequest imageButtonRequest) {
         /* В Request Body должны быть указаны все поля элемента (кроме, очевидно, id элемента) */
@@ -118,7 +114,7 @@ public class EditController {
 
     @PatchMapping("/{base64id}/{id}/poll/{base64idItem}")
     public void updateInteractivePoll(@PathVariable("base64id") String podcastId,
-                                    @PathVariable("id") Integer episodeId,
+                                    @PathVariable("id") Integer episodeNumber,
                                     @PathVariable("base64idItem") String itemId,
                                     @RequestBody InteractivePollRequest imageButtonRequest) {
         /* В Request Body должны быть указаны все поля элемента (кроме, очевидно, id элемента) */
@@ -127,21 +123,21 @@ public class EditController {
 
     @DeleteMapping("/{base64id}/{id}/imagebutton/{base64idItem}")
     public void deleteInteractiveImageButton(@PathVariable("base64id") String podcastId,
-                                             @PathVariable("id") Integer episodeId,
+                                             @PathVariable("id") Integer episodeNumber,
                                              @PathVariable("base64idItem") String itemId) {
     }
 
 
     @DeleteMapping("/{base64id}/{id}/poll/{base64idItem}")
     public void deleteInteractivePoll(@PathVariable("base64id") String podcastId,
-                                      @PathVariable("id") Integer episodeId,
+                                      @PathVariable("id") Integer episodeNumber,
                                       @PathVariable("base64idItem") String itemId) {
 
     }
 
     @PostMapping("/{base64id}/{id}/publish")
     public void publishEpisode(@PathVariable("base64id") String podcastId,
-                               @PathVariable("id") Integer episodeId) {
+                               @PathVariable("id") Integer episodeNumber) {
         /*
         По дефолту все эпизоды не публикуются в паблик сразу, а доступны только авторам.
         После публикации же, изменять интерактивные элементы будет нельзя
