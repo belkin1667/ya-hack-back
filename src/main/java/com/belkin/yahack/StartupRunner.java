@@ -1,6 +1,7 @@
 package com.belkin.yahack;
 
 import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
+import com.belkin.yahack.model.Podcast;
 import com.belkin.yahack.security.ApplicationUserRole;
 import com.belkin.yahack.security.dto.RegistrationRequest;
 import com.belkin.yahack.security.service.ApplicationUserService;
@@ -56,10 +57,12 @@ public class StartupRunner implements ApplicationRunner {
     private void generateMockPodcasts() {
         log.info("Creating podcast 'Test podcast 1' as 'author'");
         PodcastCreationRequest podcast = new PodcastCreationRequest("https://anchor.fm/s/2ea5680/podcast/rss", "Test podcast 1", "Very cool test podcast 1");
-        podcastManagementService.addPodcast(podcast, "author");
+        Podcast generatedPodcast = podcastManagementService.addPodcast(podcast, "author");
+        log.info("Podcast id=" + generatedPodcast.getId());
 
         log.info("Creating podcast 'Test podcast 2' as 'author2'");
         podcast = new PodcastCreationRequest("https://anchor.fm/s/67cae600/podcast/rss", "Test podcast 2", "Very cool test podcast 2");
-        podcastManagementService.addPodcast(podcast, "author2");
+        generatedPodcast = podcastManagementService.addPodcast(podcast, "author2");
+        log.info("Podcast id=" + generatedPodcast.getId());
     }
 }

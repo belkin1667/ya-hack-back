@@ -58,11 +58,11 @@ public class Podcast {
     private String link;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "podcast", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "podcast", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Episode> episodes;
 
-    public void addEpisodes(List<Episode> newEpisodes) {
+/*    public void addEpisodes(List<Episode> newEpisodes) {
         episodes.addAll(newEpisodes);
-    }
+    }*/
 
 }

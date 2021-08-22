@@ -17,9 +17,9 @@ import lombok.Setter;
 public class InteractiveItem {
 
     @Id
-    String id;
-    Integer timeStart;
-    Integer timeEnd;
+    private String id;
+    private Integer timeStart;
+    private Integer timeEnd;
 
     @ManyToOne
     @JoinColumn(name="episode_guid", nullable = false)

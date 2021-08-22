@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +48,8 @@ public class ListenService {
     }
 
     public List<String> getEpisodesIds(String podcastId) {
-        return episodeDao.findByPodcastIdAndPublished(podcastId, true);
+        return episodeDao.findByPodcastIdAndPublished(podcastId, true).stream()
+                .map(Episode::getGuid).collect(Collectors.toList());
     }
 
     public EpisodeMetadataResponse getEpisodePreview(String podcastId, Integer episodeNumber) {

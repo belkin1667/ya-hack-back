@@ -6,9 +6,11 @@ import java.util.stream.StreamSupport;
 
 import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
+import com.belkin.yahack.dao.EpisodeDAO;
 import com.belkin.yahack.dao.PodcastDAO;
 import com.belkin.yahack.exception.access_denied.AccessDeniedException;
 import com.belkin.yahack.exception.already_exists.PodcastAlreadyExistsException;
+import com.belkin.yahack.model.Episode;
 import com.belkin.yahack.model.Podcast;
 import com.belkin.yahack.serivce.rss.RssUpdater;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,17 @@ import org.springframework.stereotype.Service;
 public class PodcastManagementService {
 
     private final PodcastDAO podcastDAO;
+    private final EpisodeDAO episodeDAO;
     private final RssUpdater rssUpdater;
 
-    public void addPodcast(PodcastCreationRequest podcastCreationRequest, String author) {
+    public Podcast addPodcast(PodcastCreationRequest podcastCreationRequest, String author) {
         if (podcastDAO.existsByRss(podcastCreationRequest.getRss()))
             throw new PodcastAlreadyExistsException("rss", podcastCreationRequest.getRss());
         Podcast podcast = new Podcast(podcastCreationRequest, author);
-        rssUpdater.update(podcast);
+        List<Episode> newEpisodes = rssUpdater.update(podcast);
         podcastDAO.save(podcast);
+        addEpisodes(newEpisodes);
+        return podcast;
     }
 
     public List<Podcast> getAllPodcasts() {
@@ -58,5 +63,9 @@ public class PodcastManagementService {
 
     private boolean isAuthor(String podcastId, String username) {
         return podcastDAO.existsByIdAndAuthor(podcastId, username);
+    }
+
+    public void addEpisodes(List<Episode> episodes) {
+        episodeDAO.saveAll(episodes);
     }
 }

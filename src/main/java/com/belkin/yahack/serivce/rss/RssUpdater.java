@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import com.belkin.yahack.model.Episode;
 import com.belkin.yahack.model.Podcast;
 
 
+import com.belkin.yahack.serivce.PodcastManagementService;
 import com.belkin.yahack.serivce.rss.model.RssChannel;
 import com.belkin.yahack.serivce.rss.model.RssEpisode;
 import com.belkin.yahack.serivce.rss.model.RssFeed;
@@ -31,32 +33,36 @@ public class RssUpdater {
 
     private final XmlMapper xmlMapper;
 
-    public void update(Podcast podcast)  {
+    public List<Episode> update(Podcast podcast)  {
         try {
             String xml = fetchXmlFeed(podcast.getRss());
             RssFeed feed = xmlMapper.readValue(xml, RssFeed.class);
-            update(podcast, feed.getChannel());
+            return update(podcast, feed.getChannel());
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
             System.out.println(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.joining("\n")));
         }
+        return new ArrayList<>();
     }
 
-    private void update(Podcast podcast, RssChannel feed) {
+    private List<Episode> update(Podcast podcast, RssChannel feed) {
         podcast.setImageUrl(feed.getImage().getUrl());
         podcast.setLink(feed.getLink());
         List<Episode> episodes = podcast.getEpisodes();
         List<Episode> newEpisodes = new ArrayList<>();
         List<RssEpisode> rssEpisodes = feed.getEpisodes();
         if (rssEpisodes == null || rssEpisodes.size() == 0)
-            return;
+            return new ArrayList<>();
         for (RssEpisode rssEpisode : rssEpisodes) {
             Optional<Episode> maybeEpisode = episodes.stream().filter(e -> e.getGuid().equals(rssEpisode.getGuid())).findFirst();
             if (maybeEpisode.isEmpty()) {
-                newEpisodes.add(getEpisode(rssEpisode));
+                Episode episode = getEpisode(rssEpisode);
+                episode.setPodcast(podcast);
+                newEpisodes.add(episode);
             }
         }
-        podcast.addEpisodes(newEpisodes);
+        podcast.setLastUpdatedTime(new Date().toString());
+        return newEpisodes;
     }
 
     private Episode getEpisode(RssEpisode rssEpisode) {
