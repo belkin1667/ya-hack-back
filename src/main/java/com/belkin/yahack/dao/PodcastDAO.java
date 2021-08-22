@@ -12,8 +12,6 @@ public interface PodcastDAO extends CrudRepository<Podcast, String> {
 
     List<Podcast> findAllByAuthor(String author);
 
-    Optional<Podcast> findByIdAndAuthor(String podcastId, String username);
-
     boolean existsByRss(String rss);
 
     boolean existsByIdAndAuthor(String podcastId, String username);
