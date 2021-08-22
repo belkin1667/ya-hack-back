@@ -9,6 +9,7 @@ import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
 import com.belkin.yahack.api.dto.response.InteractiveImageButtonResponse;
 import com.belkin.yahack.api.dto.response.InteractivePollResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
+import com.belkin.yahack.serivce.ListenService;
 import com.belkin.yahack.serivce.PodcastManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,23 +51,21 @@ public class EditController {
             return podcastManagementService.getPodcast(podcastId, username);
     }
 
-
     @GetMapping("/{base64id}/episodes")
-    public List<String> getEpisodesIds(@PathVariable("base64id") String podcastId) {
-        return List.of("Episodes", "ids", "here");
+    public List<String> getEpisodesIds(@PathVariable("base64id") String podcastId,
+                                       @RequestHeader("username") String username) {
+        return podcastManagementService.getEpisodesIds(podcastId, username);
     }
 
     @GetMapping("/{base64id}/{id}")
     public EpisodeMetadataResponse getEpisodeMetadata(@PathVariable("base64id") String podcastId,
                                                       @PathVariable("id") Integer episodeNumber,
-                                                      @RequestParam(value = "preview", defaultValue = "false") Boolean preview) {
-        EpisodeMetadataResponse response;
+                                                      @RequestParam(value = "preview", defaultValue = "false") Boolean preview,
+                                                      @RequestHeader("username") String username) {
         if (preview)
-            response = null;
+            return podcastManagementService.getEpisodePreview(podcastId, episodeNumber, username);
         else
-            response = null;
-
-        return response;
+            return podcastManagementService.getEpisode(podcastId, episodeNumber, username);
     }
 
 
@@ -137,11 +136,14 @@ public class EditController {
 
     @PostMapping("/{base64id}/{id}/publish")
     public void publishEpisode(@PathVariable("base64id") String podcastId,
-                               @PathVariable("id") Integer episodeNumber) {
+                               @PathVariable("id") Integer episodeNumber,
+                               @RequestHeader("username") String username) {
         /*
         По дефолту все эпизоды не публикуются в паблик сразу, а доступны только авторам.
         После публикации же, изменять интерактивные элементы будет нельзя
         (простейший механизм защиты от неконсистентности данных)
          */
+
+        podcastManagementService.publishEpisode(podcastId, episodeNumber, username);
     }
 }

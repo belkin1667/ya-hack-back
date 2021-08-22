@@ -53,22 +53,22 @@ public class ListenService {
     }
 
     public EpisodeMetadataResponse getEpisodePreview(String podcastId, Integer episodeNumber) {
-        Optional<Episode> maybeEpisode = episodeDao.findByPodcastIdAndEpisodeNumber(podcastId, episodeNumber);
+        Optional<Episode> maybeEpisode = episodeDao.findByPodcastIdAndEpisodeNumberAndPublished(podcastId, episodeNumber, true);
         return getEpisodePreview(maybeEpisode);
     }
 
     public EpisodeMetadataResponse getEpisode(String podcastId, Integer episodeNumber) {
-        Optional<Episode> maybeEpisode = episodeDao.findByPodcastIdAndEpisodeNumber(podcastId, episodeNumber);
+        Optional<Episode> maybeEpisode = episodeDao.findByPodcastIdAndEpisodeNumberAndPublished(podcastId, episodeNumber, true);
         return getEpisode(maybeEpisode);
     }
 
     public EpisodeMetadataResponse getEpisodePreview(String episodeId) {
-        Optional<Episode> maybeEpisode = episodeDao.findById(episodeId);
+        Optional<Episode> maybeEpisode = episodeDao.findByGuidAndPublished(episodeId, true);
         return getEpisodePreview(maybeEpisode);
     }
 
     public EpisodeMetadataResponse getEpisode(String episodeId) {
-        Optional<Episode> maybeEpisode = episodeDao.findById(episodeId);
+        Optional<Episode> maybeEpisode = episodeDao.findByGuidAndPublished(episodeId, true);
         return getEpisode(maybeEpisode);
     }
 
