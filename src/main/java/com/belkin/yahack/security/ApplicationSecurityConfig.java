@@ -49,6 +49,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/auth/**").permitAll()
                     .antMatchers("/mock/**").permitAll()
                     .antMatchers("/edit/**").hasRole(AUTHOR.name())
+                    .antMatchers("/i/edit").hasRole(AUTHOR.name())
+                    .antMatchers("/i/**").permitAll()
                     .antMatchers("/**").hasRole(USER.name())
                     .anyRequest().authenticated();
     }
