@@ -38,8 +38,8 @@ public class Podcast {
      * Generated on first object creation
      */
     @Id
-    @GenericGenerator(name = "base64_id", strategy = "com.belkin.yahack.model.generator.Base64Generator")
-    @GeneratedValue(generator = "base64_id")
+    @GenericGenerator(name = "podcast_base64_id", strategy = "com.belkin.yahack.model.generator.Base64Generator")
+    @GeneratedValue(generator = "podcast_base64_id")
     @Column(name = "id", columnDefinition = "VARCHAR")
     private String id;
 
@@ -60,9 +60,5 @@ public class Podcast {
 
     @OneToMany(mappedBy = "podcast", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Episode> episodes;
-
-/*    public void addEpisodes(List<Episode> newEpisodes) {
-        episodes.addAll(newEpisodes);
-    }*/
 
 }

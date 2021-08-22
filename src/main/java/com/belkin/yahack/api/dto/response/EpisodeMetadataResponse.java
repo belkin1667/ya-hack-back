@@ -26,7 +26,8 @@ public class EpisodeMetadataResponse {
                 episode.getUrl(),
                 episode.getDescription(),
                 episode.isPublished(),
-                null);
+                null,
+                episode.getPodcast().getImageUrl());
         items = new ArrayList<>();
         for (InteractiveItem item : episode.getItems()) {
             if (item instanceof InteractivePoll)
@@ -43,6 +44,7 @@ public class EpisodeMetadataResponse {
         this.title = title;
         this.duration = duration;
     }
+
     private String guid;
     private String podcastId;
     private Integer episodeNumber;
@@ -55,6 +57,8 @@ public class EpisodeMetadataResponse {
     private boolean published;
 
     private List<InteractiveItemResponse> items;
+
+    private String defaultImageUrl;
 
 }
 
