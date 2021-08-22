@@ -4,8 +4,10 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter @Setter
+@ToString
 public class InteractivePollRequest extends InteractiveItemRequest {
     private String question;
     private List<String> options;
