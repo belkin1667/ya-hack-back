@@ -11,9 +11,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EpisodeDAO extends CrudRepository<Episode, String> {
 
+    Optional<Episode> findByGuidAndPublished(String guid, boolean published);
+
     List<Episode> findByPodcastIdAndPublished(String podcastId, boolean b);
 
     Optional<Episode> findByPodcastIdAndEpisodeNumber(String podcastId, Integer episodeNumber);
 
-    Optional<Episode> findByPodcast(Podcast podcast);
+    Optional<Episode> findByPodcastIdAndEpisodeNumberAndPublished(String podcastId, Integer episodeNumber, boolean published);
+
+    List<Episode> findAllByPodcastId(String podcastId);
+
+    List<Episode> findAllByPodcast(Podcast podcast);
 }
