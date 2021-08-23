@@ -3,7 +3,6 @@ package com.belkin.yahack;
 import java.util.List;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
-import com.belkin.yahack.api.dto.request.InteractiveItemRequest;
 import com.belkin.yahack.api.dto.request.InteractivePollRequest;
 import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
 import com.belkin.yahack.model.Podcast;
@@ -64,8 +63,6 @@ public class StartupRunner implements ApplicationRunner {
         PodcastCreationRequest podcast = new PodcastCreationRequest("https://anchor.fm/s/2ea5680/podcast/rss", "Test podcast 1", "Very cool test podcast 1");
         Podcast generatedPodcast = podcastManagementService.addPodcast(podcast, "author");
         log.info("Podcast id=" + generatedPodcast.getId());
-
-
 
 
         log.info("Creating podcast 'Test podcast 2' as 'author2'");

@@ -3,14 +3,10 @@ package com.belkin.yahack.api.controller;
 import java.util.List;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
-import com.belkin.yahack.api.dto.request.InteractiveItemRequest;
 import com.belkin.yahack.api.dto.request.InteractivePollRequest;
 import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
 import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
-import com.belkin.yahack.api.dto.response.InteractiveImageButtonResponse;
-import com.belkin.yahack.api.dto.response.InteractivePollResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
-import com.belkin.yahack.serivce.ListenService;
 import com.belkin.yahack.serivce.PodcastManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -82,6 +78,9 @@ public class EditController {
         return podcastManagementService.addInteractiveItem(episodeId, pollRequest);
     }
 
+    //todo: add interactive form
+    //todo: add interactive text
+
 
     @PutMapping("/{base64id}/{id}/imagebutton/{base64idItem}")
     public void editInteractiveImageButton(@PathVariable("base64id") String podcastId,
@@ -123,6 +122,7 @@ public class EditController {
     public void deleteInteractiveImageButton(@PathVariable("base64id") String podcastId,
                                              @PathVariable("id") Integer episodeNumber,
                                              @PathVariable("base64idItem") String itemId) {
+
     }
 
 
