@@ -82,11 +82,16 @@ public class CustomRssFeedDeserializer extends StdDeserializer<RssFeed> {
         episode.setAudioType(enclosureNode.get("type").asText());
         episode.setAudioLength(enclosureNode.get("length").asLong());
         episode.setSummary(cleanTags(episodeNode.get("summary").asText()));
+        if (episodeNode.has("explicit"))
         episode.setExplicit(episodeNode.get("explicit").asText());
-        episode.setDuration(episodeNode.get("duration").asLong());
-        episode.setImageUrl(episodeNode.get("image").get("href").asText());
-        episode.setSeason(episodeNode.get("season").asInt());
-        episode.setGuid(episodeNode.get("guid").get("").asText());
+        if (episodeNode.has("duration"))
+            episode.setDuration(episodeNode.get("duration").asLong());
+        if (episodeNode.has("image"))
+            episode.setImageUrl(episodeNode.get("image").get("href").asText());
+        if (episodeNode.has("season"))
+            episode.setSeason(episodeNode.get("season").asInt());
+        if (episodeNode.has("guid"))
+            episode.setGuid(episodeNode.get("guid").get("").asText());
         return episode;
     }
 
