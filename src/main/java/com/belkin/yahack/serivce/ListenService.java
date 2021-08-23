@@ -2,6 +2,7 @@ package com.belkin.yahack.serivce;
 
 import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
+import com.belkin.yahack.api.dto.response.PodcastMetadataResponseWithEpisodes;
 import com.belkin.yahack.dao.EpisodeDAO;
 import com.belkin.yahack.dao.PodcastDAO;
 import com.belkin.yahack.exception.not_found.EpisodeNotFoundException;
@@ -31,19 +32,19 @@ public class ListenService {
     }
 
 
-    public PodcastMetadataResponse getPodcastPreview(String podcastId) {
+    public PodcastMetadataResponseWithEpisodes getPodcastPreview(String podcastId) {
         Optional<Podcast> maybePodcast = podcastDao.findById(podcastId);
         if (maybePodcast.isPresent())
-            return new PodcastMetadataResponse(maybePodcast.get().getId(),
+            return new PodcastMetadataResponseWithEpisodes(maybePodcast.get().getId(),
                     maybePodcast.get().getTitle(),
                     maybePodcast.get().getImageUrl());
         throw new PodcastNotFoundException(podcastId);
     }
 
-    public PodcastMetadataResponse getPodcast(String podcastId) {
+    public PodcastMetadataResponseWithEpisodes getPodcast(String podcastId) {
         Optional<Podcast> maybePodcast = podcastDao.findById(podcastId);
         if (maybePodcast.isPresent())
-            return new PodcastMetadataResponse(maybePodcast.get());
+            return new PodcastMetadataResponseWithEpisodes(maybePodcast.get());
         throw new PodcastNotFoundException(podcastId);
     }
 

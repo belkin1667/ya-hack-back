@@ -6,6 +6,7 @@ import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
 import com.belkin.yahack.api.dto.response.InteractiveImageButtonResponse;
 import com.belkin.yahack.api.dto.response.InteractivePollResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
+import com.belkin.yahack.api.dto.response.PodcastMetadataResponseWithEpisodes;
 import com.belkin.yahack.serivce.ListenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +26,19 @@ public class ListenController {
         return listenService.getPodcastIdList();
     }
 
-    @GetMapping("/podcasts/{base64id}")
+    /*@GetMapping("/podcasts/{base64id}")
     public PodcastMetadataResponse getPodcastMetadata(@PathVariable("base64id") String podcastId,
                                                       @RequestParam(value = "preview", defaultValue = "false") Boolean preview) {
+        if (preview)
+            return listenService.getPodcastPreview(podcastId);
+        else
+            return listenService.getPodcast(podcastId);
+    }*/
+
+
+    @GetMapping("/podcasts/{base64id}")
+    public PodcastMetadataResponseWithEpisodes getPodcastMetadata(@PathVariable("base64id") String podcastId,
+                                                                  @RequestParam(value = "preview", defaultValue = "false") Boolean preview) {
         if (preview)
             return listenService.getPodcastPreview(podcastId);
         else
