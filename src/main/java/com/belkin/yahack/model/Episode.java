@@ -1,5 +1,6 @@
 package com.belkin.yahack.model;
 
+import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

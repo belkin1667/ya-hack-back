@@ -37,6 +37,12 @@ public class EpisodeMetadataResponse {
         }
     }
 
+    public EpisodeMetadataResponse(String guid, String title, Long duration) {
+        this.guid = guid;
+        this.title = title;
+        this.duration = duration;
+    }
+
     public EpisodeMetadataResponse(String guid, String podcastId, Integer episodeNumber, String title, Long duration) {
         this.guid = guid;
         this.podcastId = podcastId;
@@ -60,69 +66,8 @@ public class EpisodeMetadataResponse {
 
     private String defaultImageUrl;
 
-}
 
-/*
-{
-    "podcastId": "base64",
-    "episodeId": "base64",
-    "episodeNumber": 1,
-    "title": "Cool podcast",
-    "duration": 17,
-    "url": ".mp3",
-    "description": "blah-blah-blah",
-    "published": true,
-    "items": [
-        { //InteractivePollResponse
-            "id": "base64",
-            "timeStart": 0,
-            "timeEnd": 4,
-            "type": "poll",
-            "question": "Hmm??",
-            "options": ["A", "B", "C"],
-            "multipleOptions": true
-        },
-        { //InteractiveImagebuttonResponse
-            "id": "base64",
-            "timeStart": 4,
-            "timeEnd": 8,
-            "type": "imagebutton",
-            "imageUrl": "putin.png",
-            "buttonUrl": null,
-            "buttonText": null
-        },
-        { //InteractiveImagebuttonResponse
-            "id": "base64",
-            "timeStart": 8,
-            "timeEnd": 12,
-            "type": "imagebutton",
-            "imageUrl": null,
-            "buttonUrl": "www.amazon.com/shop",
-            "buttonText": "Купи скайрим"
-        },
-        { //InteractiveImagebuttonResponse
-            "id": "base64",
-            "timeStart": 12,
-            "timeEnd": 17,
-            "type": "imagebutton",
-            "imageUrl": "putin.png",
-            "buttonUrl": "www.amazon.com/shop",
-            "buttonText": "Купи скайрим"
-        },
-        { //InteractiveTextResponse
-            "id": "base64",
-            "timeStart": 12,
-            "timeEnd": 17,
-            "type": "text",
-            "text": "Купи скайрим"
-        },
-        { //InteractiveFormResponse
-            "id": "base64",
-            "timeStart": 12,
-            "timeEnd": 17,
-            "type": "form",
-            "text": "Напиши что-нибудь"
-        }
-    ]
+    public static EpisodeMetadataResponse map(Episode episode) {
+        return new EpisodeMetadataResponse(episode.getGuid(), episode.getTitle(), episode.getDuration());
+    }
 }
-*/
