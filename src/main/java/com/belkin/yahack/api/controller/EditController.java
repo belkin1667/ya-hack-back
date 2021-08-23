@@ -3,6 +3,7 @@ package com.belkin.yahack.api.controller;
 import java.util.List;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
+import com.belkin.yahack.api.dto.request.InteractiveItemRequest;
 import com.belkin.yahack.api.dto.request.InteractivePollRequest;
 import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
 import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
@@ -65,6 +66,12 @@ public class EditController {
             return podcastManagementService.getEpisode(podcastId, episodeNumber, username);
     }
 
+
+    @PostMapping("/episodes/{guid}")
+    public void addInteractiveItems(@PathVariable("guid") String episodeId,
+                                            @RequestBody List<InteractiveItemRequest> items) {
+        items.forEach(item -> podcastManagementService.addInteractiveItem(episodeId, item));
+    }
 
     @PostMapping("/episodes/{guid}/imagebutton")
     public String addInteractiveImageButton(@PathVariable("guid") String episodeId,

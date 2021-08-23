@@ -70,24 +70,35 @@ public class StartupRunner implements ApplicationRunner {
         generatedPodcast = podcastManagementService.addPodcast(podcast, "author2");
         log.info("Podcast id=" + generatedPodcast.getId());
 
-        String guid = "a7f026cf-3d15-4a5a-921c-fa65281c8e1a";
+        String guid = "27f55048-6117-4e99-8b7a-b69d2945670d";
+        log.info("Added items to 1st episode of podcast");
+        podcastManagementService.publishEpisode(guid, "author2");
+
+        guid = "a7f026cf-3d15-4a5a-921c-fa65281c8e1a";
+        log.info("Added items to 2nd episode of podcast");
+        podcastManagementService.publishEpisode(guid, "author2");
+
+        guid = "37803bd1-141e-4c9f-9ea8-31ab3dfba0ff";
+        podcastManagementService.publishEpisode(guid, "author2");
+        log.info("Published 3rd episode of podcast");
+
+        guid = "e3b52afe-603d-4cba-b2f3-f27d1fd5fce2";
         podcastManagementService.addInteractiveItem(guid, getImageButton());
         podcastManagementService.addInteractiveItem(guid, getButton());
         podcastManagementService.addInteractiveItem(guid, getImage());
-        podcastManagementService.addInteractiveItem(guid, getPoll(true, true, 15));
-        podcastManagementService.addInteractiveItem(guid, getPoll(false, true, 25));
-        podcastManagementService.addInteractiveItem(guid, getPoll(true, false, 35));
-        podcastManagementService.addInteractiveItem(guid, getPoll(false, false, 45));
-        log.info("Added items to 2nd episode of podcast");
-
+        podcastManagementService.addInteractiveItem(guid, getPoll("Купил?", List.of("Да"), true, true, 35));
+        podcastManagementService.addInteractiveItem(guid, getPoll("Купил тлоу?", List.of("Да", "Нет"),  false, true, 45));
+        podcastManagementService.addInteractiveItem(guid, getPoll("Купил баттлфилд?", List.of("Да", "Нет", "Наверное"), true, false, 55));
+        podcastManagementService.addInteractiveItem(guid, getPoll("Купил покушать?",  List.of("Да", "Нет", "Наверное", "Конечно!"), false, false, 65));
+        log.info("Added items to 4th episode of podcast");
         podcastManagementService.publishEpisode(guid, "author2");
-        log.info("Published 2nd episode of podcast");
+        log.info("Published 4th episode of podcast");
     }
 
     private InteractiveImageButtonRequest getImageButton() {
         InteractiveImageButtonRequest imagebutton = new InteractiveImageButtonRequest();
-        imagebutton.setTimeStart(1);
-        imagebutton.setTimeEnd(4);
+        imagebutton.setTimeStart(5);
+        imagebutton.setTimeEnd(10);
         imagebutton.setButtonText("Купи скайрим");
         imagebutton.setButtonUrl("https://google.com");
         imagebutton.setImageUrl("https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/17313504/17313504-1629575611498-dd44d1801c0dc.jpg");
@@ -96,8 +107,8 @@ public class StartupRunner implements ApplicationRunner {
 
     private InteractiveImageButtonRequest getImage() {
         InteractiveImageButtonRequest imagebutton = new InteractiveImageButtonRequest();
-        imagebutton.setTimeStart(5);
-        imagebutton.setTimeEnd(9);
+        imagebutton.setTimeStart(15);
+        imagebutton.setTimeEnd(20);
         imagebutton.setButtonText(null);
         imagebutton.setButtonUrl(null);
         imagebutton.setImageUrl("https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/17313504/17313504-1629575611498-dd44d1801c0dc.jpg");
@@ -106,20 +117,20 @@ public class StartupRunner implements ApplicationRunner {
 
     private InteractiveImageButtonRequest getButton() {
         InteractiveImageButtonRequest imagebutton = new InteractiveImageButtonRequest();
-        imagebutton.setTimeStart(10);
-        imagebutton.setTimeEnd(14);
+        imagebutton.setTimeStart(25);
+        imagebutton.setTimeEnd(30);
         imagebutton.setButtonText(null);
         imagebutton.setButtonUrl(null);
         imagebutton.setImageUrl("https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/17313504/17313504-1629575611498-dd44d1801c0dc.jpg");
         return imagebutton;
     }
 
-    private InteractivePollRequest getPoll(boolean multipleOptions, boolean hasCorrect, int timeStart) {
+    private InteractivePollRequest getPoll(String question, List<String> options, boolean multipleOptions, boolean hasCorrect, int timeStart) {
         InteractivePollRequest poll = new InteractivePollRequest();
         poll.setTimeStart(timeStart);
         poll.setTimeEnd(timeStart + 5);
-        poll.setQuestion("Купил скайрим?");
-        poll.setOptions(List.of("Да", "Нет", "Наверное"));
+        poll.setQuestion(question);
+        poll.setOptions(options);
         poll.setMultipleOptions(multipleOptions);
         if (hasCorrect)
             poll.setCorrectAnswers(List.of(0));
