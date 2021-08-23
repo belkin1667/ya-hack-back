@@ -162,4 +162,18 @@ public class PodcastManagementService {
         itemDAO.save(item);
         return item.getId();
     }
+
+    public EpisodeMetadataResponse getEpisode(String episodeId, String username) {
+        if (!isAuthorOfEpisode(episodeId, username)) {
+            throw new AccessDeniedException(String.format("User %s is not an author of episode %s", username, episodeId));
+        }
+        return getEpisode(episodeDAO.findById(episodeId));
+    }
+
+    public EpisodeMetadataResponse getEpisodePreview(String episodeId, String username) {
+        if (!isAuthorOfEpisode(episodeId, username)) {
+            throw new AccessDeniedException(String.format("User %s is not an author of episode %s", username, episodeId));
+        }
+        return getEpisodePreview(episodeDAO.findById(episodeId));
+    }
 }

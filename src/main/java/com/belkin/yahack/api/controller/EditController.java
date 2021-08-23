@@ -67,23 +67,29 @@ public class EditController {
     }
 
 
-    @PostMapping("/episodes/{guid}")
+    @GetMapping("/episodes/{guid}")
+    public EpisodeMetadataResponse getEpisodeMetadata(@PathVariable("guid") String episodeId,
+                                                      @RequestParam(value = "preview", defaultValue = "false") Boolean preview,
+                                                      @RequestHeader("username") String username) {
+        if (preview)
+            return podcastManagementService.getEpisodePreview(episodeId, username);
+        else
+            return podcastManagementService.getEpisode(episodeId, username);
+    }
+
+
+    @PostMapping("/episodes/{guid}/all")
     public void addInteractiveItems(@PathVariable("guid") String episodeId,
                                             @RequestBody List<InteractiveItemRequest> items) {
         items.forEach(item -> podcastManagementService.addInteractiveItem(episodeId, item));
     }
 
-    @PostMapping("/episodes/{guid}/imagebutton")
-    public String addInteractiveImageButton(@PathVariable("guid") String episodeId,
-                                            @RequestBody InteractiveImageButtonRequest imageButtonRequest) {
-        return podcastManagementService.addInteractiveItem(episodeId, imageButtonRequest);
+    @PostMapping("/episodes/{guid}")
+    public String addInteractiveItem(@PathVariable("guid") String episodeId,
+                                            @RequestBody InteractiveItemRequest itemRequest) {
+        return podcastManagementService.addInteractiveItem(episodeId, itemRequest);
     }
 
-    @PostMapping("/episodes/{guid}/poll")
-    public String addInteractivePoll(@PathVariable("guid") String episodeId,
-                                     @RequestBody InteractivePollRequest pollRequest) {
-        return podcastManagementService.addInteractiveItem(episodeId, pollRequest);
-    }
 
     //todo: add interactive form
     //todo: add interactive text
