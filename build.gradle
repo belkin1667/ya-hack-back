@@ -63,6 +63,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.4'
 	// Quartz (Rss Reader)
 	implementation 'org.quartz-scheduler:quartz:2.3.2'
+	implementation 'org.springframework.boot:spring-boot-starter-quartz:2.5.4'
 
 }
 

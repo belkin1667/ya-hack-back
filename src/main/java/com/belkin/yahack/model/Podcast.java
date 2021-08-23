@@ -58,7 +58,7 @@ public class Podcast {
     private String link;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "podcast", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "podcast", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Episode> episodes;
 
 }
