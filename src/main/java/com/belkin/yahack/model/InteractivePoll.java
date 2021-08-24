@@ -15,7 +15,6 @@ import lombok.Setter;
 
 @Getter @Setter
 @Entity
-@Table(name="interactive_poll")
 @NoArgsConstructor
 public class InteractivePoll extends InteractiveItem {
 
@@ -38,21 +37,3 @@ public class InteractivePoll extends InteractiveItem {
     private List<Integer> correctAnswers;
 
 }
-
-/*
-
-
-{
-"id": "id",
-"timeStart": 123,
-"timeEnd": 123,
-"question": "hm?",
-"options": ["A", "B", "C"],
-"multipleOptions":true,
-}
-
-{
-"correctAnswers": [0, 2] // пусто или null - нет правильного ответа
-"
-}
- */

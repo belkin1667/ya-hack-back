@@ -11,6 +11,7 @@ import com.belkin.yahack.serivce.ListenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,11 +64,12 @@ public class ListenController {
 
     @GetMapping("/episodes/{guid}")
     public EpisodeMetadataResponse getEpisodeMetadata(@PathVariable("guid") String episodeId,
-                                                      @RequestParam(value = "preview", defaultValue = "false") Boolean preview) {
+                                                      @RequestParam(value = "preview", defaultValue = "false") Boolean preview,
+                                                      @RequestHeader("username") String username) {
         if (preview)
             return listenService.getEpisodePreview(episodeId);
         else
-            return listenService.getEpisode(episodeId);
+            return listenService.getEpisode(episodeId, username);
     }
 
 }
