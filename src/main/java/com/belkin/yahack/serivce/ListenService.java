@@ -1,14 +1,24 @@
 package com.belkin.yahack.serivce;
 
 import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
-import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
+import com.belkin.yahack.api.dto.response.InteractiveImageButtonResponse;
+import com.belkin.yahack.api.dto.response.InteractiveItemResponse;
+import com.belkin.yahack.api.dto.response.InteractivePollResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponseWithEpisodes;
 import com.belkin.yahack.dao.EpisodeDAO;
+import com.belkin.yahack.dao.InteractiveItemDAO;
 import com.belkin.yahack.dao.PodcastDAO;
+import com.belkin.yahack.dao.StatsDAO;
 import com.belkin.yahack.exception.not_found.EpisodeNotFoundException;
+import com.belkin.yahack.exception.not_found.ItemNotFoundException;
 import com.belkin.yahack.exception.not_found.PodcastNotFoundException;
 import com.belkin.yahack.model.Episode;
+import com.belkin.yahack.model.InteractiveImageButton;
+import com.belkin.yahack.model.InteractiveItem;
+import com.belkin.yahack.model.InteractivePoll;
+import com.belkin.yahack.model.InteractiveText;
 import com.belkin.yahack.model.Podcast;
+import com.belkin.yahack.model.stats.PollAnswers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +34,7 @@ public class ListenService {
 
     private final PodcastDAO podcastDao;
     private final EpisodeDAO episodeDao;
+    private final StatisticsService statisticsService;
 
     public List<String> getPodcastIdList() {
         List<String> podcastIds = new ArrayList<>();
@@ -55,6 +66,7 @@ public class ListenService {
 
     public EpisodeMetadataResponse getEpisodePreview(String podcastId, Integer episodeNumber) {
         Optional<Episode> maybeEpisode = episodeDao.findByPodcastIdAndEpisodeNumberAndPublished(podcastId, episodeNumber, true);
+
         return getEpisodePreview(maybeEpisode);
     }
 
@@ -68,9 +80,33 @@ public class ListenService {
         return getEpisodePreview(maybeEpisode);
     }
 
-    public EpisodeMetadataResponse getEpisode(String episodeId) {
-        Optional<Episode> maybeEpisode = episodeDao.findByGuidAndPublished(episodeId, true);
-        return getEpisode(maybeEpisode);
+    public EpisodeMetadataResponse getEpisode(String episodeId, String listenerUsername) {
+        Episode episode = episodeDao.findByGuidAndPublished(episodeId, true)
+                .orElseThrow(() -> new EpisodeNotFoundException(episodeId));
+        EpisodeMetadataResponse episodeResponse = new EpisodeMetadataResponse(episode);
+        episodeResponse.setItems(getInteractiveItems(episode.getItems(), listenerUsername));
+        return episodeResponse;
+    }
+
+    private List<InteractiveItemResponse> getInteractiveItems(List<InteractiveItem> items, String listenerUsername) {
+        return items.stream().map(item -> {
+            if (item instanceof InteractivePoll) {
+                InteractivePoll poll = (InteractivePoll) item;
+                boolean isAnswered = statisticsService.existsByElementIdAndUsername(poll.getId(), listenerUsername);
+                if (isAnswered) {
+                    return statisticsService.getPollResults(poll.getId());
+                }
+                else {
+                    return new InteractivePollResponse(poll);
+                }
+            }
+            else if (item instanceof InteractiveImageButton) {
+                return new InteractiveImageButtonResponse((InteractiveImageButton) item);
+            }
+            else {
+                return null;
+            }
+        }).collect(Collectors.toList());
     }
 
     private EpisodeMetadataResponse getEpisodePreview(Optional<Episode> maybeEpisode) {

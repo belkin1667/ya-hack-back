@@ -2,7 +2,6 @@ package com.belkin.yahack.model;
 
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
 import lombok.Getter;

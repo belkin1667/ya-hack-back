@@ -13,13 +13,7 @@ public class InteractiveImageButtonResponse extends InteractiveItemResponse {
         this.imageUrl = imageButton.getImageUrl();
         this.buttonText = imageButton.getButtonText();
         this.buttonUrl = imageButton.getButtonUrl();
-
-        String type = "";
-        if (imageUrl != null)
-            type += "image";
-        if (buttonUrl != null && buttonText != null)
-            type += "button";
-        this.setType(type);
+        this.setType("imagebutton");
     }
 
     public InteractiveImageButtonResponse(String id, Integer timeStart, Integer timeEnd, String type, String imageUrl, String buttonText, String buttonUrl) {
