@@ -47,6 +47,12 @@ public class PodcastManagementService {
         return podcast;
     }
 
+    public void updatePodcast(Podcast podcast) {
+        List<Episode> newEpisodes = rssUpdater.update(podcast);
+        podcastDAO.save(podcast);
+        addEpisodes(newEpisodes);
+    }
+
     public List<Podcast> getAllPodcasts() {
         return StreamSupport.stream(podcastDAO.findAll().spliterator(), false).collect(Collectors.toList());
     }
@@ -150,12 +156,10 @@ public class PodcastManagementService {
         Episode episode = episodeDAO.findById(episodeId).orElseThrow(() -> new EpisodeNotFoundException(episodeId));
         InteractiveItem item = null;
         if (itemRequest instanceof InteractiveImageButtonRequest) {
-            item = new InteractiveImageButton((InteractiveImageButtonRequest)itemRequest);
-        }
-        else if (itemRequest instanceof InteractivePollRequest) {
-            item = new InteractivePoll((InteractivePollRequest)itemRequest);
-        }
-        else {
+            item = new InteractiveImageButton((InteractiveImageButtonRequest) itemRequest);
+        } else if (itemRequest instanceof InteractivePollRequest) {
+            item = new InteractivePoll((InteractivePollRequest) itemRequest);
+        } else {
             throw new RestException(HttpStatus.BAD_REQUEST, "BAD REQUEST");
         }
         item.setEpisode(episode);
