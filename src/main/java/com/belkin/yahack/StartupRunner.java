@@ -1,15 +1,25 @@
 package com.belkin.yahack;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
 import com.belkin.yahack.api.dto.request.InteractivePollRequest;
 import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
+import com.belkin.yahack.api.dto.response.InteractiveItemResponse;
+import com.belkin.yahack.api.dto.response.InteractivePollResponse;
+import com.belkin.yahack.model.InteractiveItem;
 import com.belkin.yahack.model.Podcast;
 import com.belkin.yahack.security.ApplicationUserRole;
 import com.belkin.yahack.security.dto.RegistrationRequest;
 import com.belkin.yahack.security.service.ApplicationUserService;
+import com.belkin.yahack.serivce.ListenService;
 import com.belkin.yahack.serivce.PodcastManagementService;
+import com.belkin.yahack.serivce.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -27,10 +37,13 @@ public class StartupRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         generateMockUsers();
         generateMockPodcasts();
+        generateMockPollAnswers();
     }
 
     private final ApplicationUserService applicationUserService;
     private final PodcastManagementService podcastManagementService;
+    private final StatisticsService statisticsService;
+    private final ListenService listenService;
 
     private void generateMockUsers() {
         log.info("Creating user 'user'");
@@ -39,11 +52,13 @@ public class StartupRunner implements ApplicationRunner {
         user.setPassword("pass");
         applicationUserService.register(user, ApplicationUserRole.USER);
 
-        log.info("Creating user 'user2'");
-        user = new RegistrationRequest();
-        user.setUsername("user2");
-        user.setPassword("pass");
-        applicationUserService.register(user, ApplicationUserRole.USER);
+        for (int i = 0; i < 15; i++) {
+            log.info("Creating user 'user" + i + "'");
+            user = new RegistrationRequest();
+            user.setUsername("user" + i);
+            user.setPassword("pass");
+            applicationUserService.register(user, ApplicationUserRole.USER);
+        }
 
         log.info("Creating user 'author'");
         RegistrationRequest author = new RegistrationRequest();
@@ -137,5 +152,41 @@ public class StartupRunner implements ApplicationRunner {
         else
             poll.setCorrectAnswers(null);
         return poll;
+    }
+
+    private static final Random rnd = new Random(0);
+
+    private void generateMockPollAnswers() {
+        List<String> pollIds = new ArrayList<>();
+        List<Integer> pollSizes = new ArrayList<>();
+        List<Boolean> pollTypes = new ArrayList<>();
+
+        List<InteractiveItemResponse> items = listenService.getEpisode("e3b52afe-603d-4cba-b2f3-f27d1fd5fce2", "user3").getItems();
+        for (InteractiveItemResponse item : items) {
+            if (item instanceof InteractivePollResponse) {
+                InteractivePollResponse poll = (InteractivePollResponse) item;
+                pollIds.add(poll.getId());
+                pollSizes.add(poll.getOptions().size());
+                pollTypes.add(poll.isMultipleOptions());
+            }
+        }
+        for (int i = 0; i < pollIds.size(); i++) {
+            int pollSize = pollSizes.get(i);
+            boolean multiple = pollTypes.get(i);
+            for (int t = 3; t < 15; t++) {
+                if (rnd.nextBoolean()) {
+                    Set<Integer> answers = new HashSet<>();
+                    if (multiple) {
+                        int numberOfAnswers = rnd.nextInt(pollSize) + 1;
+                        for (int j = 0; j < numberOfAnswers; j++) {
+                            answers.add(rnd.nextInt(pollSize));
+                        }
+                    } else {
+                        answers.add(rnd.nextInt(pollSize));
+                    }
+                    statisticsService.registerPollAnswer(pollIds.get(i), new ArrayList<>(answers), "user" + t);
+                }
+            }
+        }
     }
 }

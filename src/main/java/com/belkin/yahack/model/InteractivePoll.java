@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,10 +31,10 @@ public class InteractivePoll extends InteractiveItem {
     private String question;
     private boolean multipleOptions;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> options;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Integer> correctAnswers;
 
 }

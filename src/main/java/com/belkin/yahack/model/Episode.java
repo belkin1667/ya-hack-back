@@ -51,7 +51,7 @@ public class Episode {
     private Podcast podcast;
 
 
-    @OneToMany(mappedBy = "episode", fetch= FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "episode", fetch= FetchType.EAGER, cascade = CascadeType.ALL)
     private List<InteractiveItem> items;
 
     private boolean published; // can edit items while not published, as soon as published can't edit items
