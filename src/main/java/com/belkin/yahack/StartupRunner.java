@@ -119,9 +119,9 @@ public class StartupRunner implements ApplicationRunner {
         InteractiveImageButtonRequest imagebutton = new InteractiveImageButtonRequest();
         imagebutton.setTimeStart(25);
         imagebutton.setTimeEnd(30);
-        imagebutton.setButtonText(null);
-        imagebutton.setButtonUrl(null);
-        imagebutton.setImageUrl("https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/17313504/17313504-1629575611498-dd44d1801c0dc.jpg");
+        imagebutton.setButtonText("Купи скайрим");
+        imagebutton.setButtonUrl("https://google.com");
+        imagebutton.setImageUrl(null);
         return imagebutton;
     }
 
