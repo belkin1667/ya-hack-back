@@ -2,6 +2,7 @@ package com.belkin.yahack.api.controller;
 
 import java.util.List;
 
+import com.belkin.yahack.api.dto.request.FormAnswerRequest;
 import com.belkin.yahack.api.dto.request.PollAnswerRequest;
 import com.belkin.yahack.api.dto.response.InteractivePollAnswerResponse;
 import com.belkin.yahack.serivce.StatisticsService;
@@ -39,6 +40,13 @@ public class StatisticsController {
 
         statisticsService.registerPollAnswer(pollId, pollAnswer.getAnswers(), username);
         return statisticsService.getPollResults(pollId);
+    }
+    
+    @PostMapping("/forms/{base64id}")
+    public void registerFormAnswer(@PathVariable("base64id") String formId,
+                                   @RequestBody FormAnswerRequest formAnswer,
+                                   @RequestHeader("username") String username) {
+        statisticsService.registerFormAnswer(formId, formAnswer.getAnswer(), username);
     }
 
 }

@@ -9,10 +9,12 @@ import java.util.stream.Collectors;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
 import com.belkin.yahack.api.dto.request.InteractivePollRequest;
+import com.belkin.yahack.api.dto.request.InteractiveTextRequest;
 import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
 import com.belkin.yahack.api.dto.response.InteractiveItemResponse;
 import com.belkin.yahack.api.dto.response.InteractivePollResponse;
 import com.belkin.yahack.model.InteractiveItem;
+import com.belkin.yahack.model.ItemType;
 import com.belkin.yahack.model.Podcast;
 import com.belkin.yahack.security.ApplicationUserRole;
 import com.belkin.yahack.security.dto.RegistrationRequest;
@@ -37,7 +39,8 @@ public class StartupRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         generateMockUsers();
         generateMockPodcasts();
-        generateMockPollAnswers();
+        generateMockPollAnswers("e3b52afe-603d-4cba-b2f3-f27d1fd5fce2");
+        generateMockPollAnswers("3e514e86-dfcf-4097-9a7a-7794d2f12e56");
     }
 
     private final ApplicationUserService applicationUserService;
@@ -69,6 +72,12 @@ public class StartupRunner implements ApplicationRunner {
         log.info("Creating user 'author2'");
         author = new RegistrationRequest();
         author.setUsername("author2");
+        author.setPassword("pass");
+        applicationUserService.register(author, ApplicationUserRole.AUTHOR);
+
+        log.info("Creating user 'author3'");
+        author = new RegistrationRequest();
+        author.setUsername("author3");
         author.setPassword("pass");
         applicationUserService.register(author, ApplicationUserRole.AUTHOR);
     }
@@ -105,10 +114,113 @@ public class StartupRunner implements ApplicationRunner {
         podcastManagementService.addInteractiveItem(guid, getPoll("Купил тлоу?", List.of("Да", "Нет"),  false, true, 45));
         podcastManagementService.addInteractiveItem(guid, getPoll("Купил баттлфилд?", List.of("Да", "Нет", "Наверное"), true, false, 55));
         podcastManagementService.addInteractiveItem(guid, getPoll("Купил покушать?",  List.of("Да", "Нет", "Наверное", "Конечно!"), false, false, 65));
+        podcastManagementService.addInteractiveItem(guid, getText());
+        podcastManagementService.addInteractiveItem(guid, getForm());
         log.info("Added items to 4th episode of podcast");
         podcastManagementService.publishEpisode(guid, "author2");
         log.info("Published 4th episode of podcast");
+
+        podcast = new PodcastCreationRequest("https://anchor.fm/s/690f4c18/podcast/rss",
+                "Подкаст Лаборатории Медиасервисов",
+                "Интервью с известными интеллектуалами о любимых книгах и не только");
+        generatedPodcast = podcastManagementService.addPodcast(podcast, "author3");
+        log.info("Podcast (for demo) id=" + generatedPodcast.getId());
+
+        guid = "3e514e86-dfcf-4097-9a7a-7794d2f12e56";
+        podcastManagementService.addInteractiveItem(guid, getImageDemo());
+        podcastManagementService.addInteractiveItem(guid, getTextDemo());
+        podcastManagementService.addInteractiveItem(guid, getPoll2Demo());
+        podcastManagementService.addInteractiveItem(guid, getPoll3Demo());
+        podcastManagementService.addInteractiveItem(guid, getPoll4Demo());
+        podcastManagementService.addInteractiveItem(guid, getFormDemo());
+        podcastManagementService.addInteractiveItem(guid, getButtonDemo());
+        podcastManagementService.addInteractiveItem(guid, getImageButtonDemo());
+        podcastManagementService.publishEpisode(guid, "author3");
+
+
     }
+
+    private InteractivePollRequest getPoll4Demo() {
+        InteractivePollRequest poll = new InteractivePollRequest();
+        poll.setTimeStart(100);
+        poll.setTimeEnd(110);
+        poll.setQuestion("Какие книги вы читаете?");
+        poll.setOptions(List.of("Художка", "Non-fiction", "Учебники", "Не читаю"));
+        poll.setMultipleOptions(true);
+        poll.setCorrectAnswers(null);
+        return poll;
+    }
+
+    private InteractivePollRequest getPoll3Demo() {
+        InteractivePollRequest poll = new InteractivePollRequest();
+        poll.setTimeStart(75);
+        poll.setTimeEnd(85);
+        poll.setQuestion("А вы получаете вдохновение от классики?");
+        poll.setOptions(List.of("Да", "Нет", "Не читаю классику"));
+        poll.setMultipleOptions(false);
+        poll.setCorrectAnswers(null);
+        return poll;
+    }
+
+    private InteractivePollRequest getPoll2Demo() {
+        InteractivePollRequest poll = new InteractivePollRequest();
+        poll.setTimeStart(28);
+        poll.setTimeEnd(38);
+        poll.setQuestion("А вы стали больше читать?");
+        poll.setOptions(List.of("Да", "Нет"));
+        poll.setMultipleOptions(false);
+        poll.setCorrectAnswers(List.of(0));
+        return poll;
+    }
+
+    private InteractiveTextRequest getFormDemo() {
+        InteractiveTextRequest text = new InteractiveTextRequest();
+        text.setText("Ссылка на ваш инстаграм");
+        text.setHasInputForm(true);
+        text.setTimeStart(131);
+        text.setTimeEnd(158);
+        return text;
+    }
+
+    private InteractiveTextRequest getTextDemo() {
+        InteractiveTextRequest text = new InteractiveTextRequest();
+        text.setText("Леонид Парфёнов — журналист, телеведущий, писатель, автор YouTube-канала Parfenon и легендарного проекта «Намедни»");
+        text.setHasInputForm(false);
+        text.setTimeStart(9);
+        text.setTimeEnd(20);
+        return text;
+    }
+
+    private InteractiveImageButtonRequest getImageDemo() {
+        InteractiveImageButtonRequest imagebutton = new InteractiveImageButtonRequest();
+        imagebutton.setTimeStart(2);
+        imagebutton.setTimeEnd(8);
+        imagebutton.setButtonText(null);
+        imagebutton.setButtonUrl(null);
+        imagebutton.setImageUrl("https://yt3.ggpht.com/ytc/AKedOLTN-dPQZ97tYSerNX9lGzc6O-D8fu8RX6WZFTnW=s176-c-k-c0x00ffffff-no-rj");
+        return imagebutton;
+    }
+
+    private InteractiveImageButtonRequest getButtonDemo() {
+        InteractiveImageButtonRequest imagebutton = new InteractiveImageButtonRequest();
+        imagebutton.setTimeStart(161);
+        imagebutton.setTimeEnd(171);
+        imagebutton.setButtonText("Мой инстаграм");
+        imagebutton.setButtonUrl("https://www.instagram.com/mustreader/");
+        imagebutton.setImageUrl(null);
+        return imagebutton;
+    }
+
+    private InteractiveImageButtonRequest getImageButtonDemo() {
+        InteractiveImageButtonRequest imagebutton = new InteractiveImageButtonRequest();
+        imagebutton.setTimeStart(175);
+        imagebutton.setTimeEnd(182);
+        imagebutton.setButtonText("Смотреть на ютуб");
+        imagebutton.setButtonUrl("https://www.youtube.com/watch?v=QG6Y_wWDJHE");
+        imagebutton.setImageUrl("https://yt3.ggpht.com/ytc/AKedOLTN-dPQZ97tYSerNX9lGzc6O-D8fu8RX6WZFTnW=s176-c-k-c0x00ffffff-no-rj");
+        return imagebutton;
+    }
+
 
     private InteractiveImageButtonRequest getImageButton() {
         InteractiveImageButtonRequest imagebutton = new InteractiveImageButtonRequest();
@@ -154,14 +266,37 @@ public class StartupRunner implements ApplicationRunner {
         return poll;
     }
 
+
+    private InteractiveTextRequest getText() {
+        InteractiveTextRequest text = new InteractiveTextRequest();
+        text.setText("Термин тут должен быть длинный очень длинный, особенно полезно когда подкаст " +
+                "на какую-то очень умную тему, а ты тупой");
+        text.setHasInputForm(false);
+        text.setType(ItemType.text);
+        text.setTimeStart(75);
+        text.setTimeEnd(80);
+        return text;
+    }
+
+    private InteractiveTextRequest getForm() {
+        InteractiveTextRequest form = new InteractiveTextRequest();
+        form.setText("Напиши как дела");
+        form.setHasInputForm(true);
+        form.setType(ItemType.text);
+        form.setTimeStart(85);
+        form.setTimeEnd(90);
+        return form;
+    }
+
+
     private static final Random rnd = new Random(0);
 
-    private void generateMockPollAnswers() {
+    private void generateMockPollAnswers(String episodeId) {
         List<String> pollIds = new ArrayList<>();
         List<Integer> pollSizes = new ArrayList<>();
         List<Boolean> pollTypes = new ArrayList<>();
 
-        List<InteractiveItemResponse> items = listenService.getEpisode("e3b52afe-603d-4cba-b2f3-f27d1fd5fce2", "user3").getItems();
+        Set<InteractiveItemResponse> items = listenService.getEpisode(episodeId, "user3").getItems();
         for (InteractiveItemResponse item : items) {
             if (item instanceof InteractivePollResponse) {
                 InteractivePollResponse poll = (InteractivePollResponse) item;

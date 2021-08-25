@@ -51,13 +51,19 @@ public class Podcast {
     private String lastUpdatedTime;
 
     // Get from user
+    @Column(name = "title", columnDefinition = "VARCHAR")
     private String title;
+    @Column(name = "author", columnDefinition = "VARCHAR")
     private String author;
+    @Column(name = "description", columnDefinition = "VARCHAR")
     private String description;
+    @Column(name = "rss", columnDefinition = "VARCHAR")
     private String rss;
 
     // Get from RSS
+    @Column(name = "link", columnDefinition = "VARCHAR")
     private String link;
+    @Column(name = "image_url", columnDefinition = "VARCHAR")
     private String imageUrl;
 
     @OneToMany(mappedBy = "podcast", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)

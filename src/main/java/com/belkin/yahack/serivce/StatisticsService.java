@@ -12,8 +12,10 @@ import com.belkin.yahack.exception.RestException;
 import com.belkin.yahack.exception.not_found.ItemNotFoundException;
 import com.belkin.yahack.model.InteractiveItem;
 import com.belkin.yahack.model.InteractivePoll;
+import com.belkin.yahack.model.InteractiveText;
 import com.belkin.yahack.model.stats.ButtonClick;
 import com.belkin.yahack.model.stats.EpisodePlay;
+import com.belkin.yahack.model.stats.FormAnswer;
 import com.belkin.yahack.model.stats.PollAnswers;
 import com.belkin.yahack.model.stats.StatisticRecord;
 import lombok.RequiredArgsConstructor;
@@ -88,5 +90,16 @@ public class StatisticsService {
 
     public boolean existsByElementIdAndUsername(String id, String listenerUsername) {
         return statsDAO.existsByElementIdAndUsername(id, listenerUsername);
+    }
+
+    public void registerFormAnswer(String formId, String answer, String username) {
+        InteractiveItem item = itemDAO.findById(formId).orElseThrow(() -> new ItemNotFoundException(formId));
+        if (item instanceof InteractiveText) {
+            InteractiveText text = (InteractiveText) item;
+            if (text.isHasInputForm())
+                registerStatsRecord(new FormAnswer(formId, username, answer));
+            else
+                throw new ItemNotFoundException(formId);
+        }
     }
 }

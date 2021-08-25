@@ -1,13 +1,13 @@
 package com.belkin.yahack.api.dto.response;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.belkin.yahack.model.Episode;
 import com.belkin.yahack.model.InteractiveImageButton;
 import com.belkin.yahack.model.InteractiveItem;
 import com.belkin.yahack.model.InteractivePoll;
+import com.belkin.yahack.model.InteractiveText;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,12 +28,14 @@ public class EpisodeMetadataResponse {
                 episode.isPublished(),
                 null,
                 episode.getPodcast().getImageUrl());
-        items = new ArrayList<>();
+        items = new HashSet<>();
         for (InteractiveItem item : episode.getItems()) {
             if (item instanceof InteractivePoll)
                 items.add(new InteractivePollResponse((InteractivePoll) item));
             if (item instanceof InteractiveImageButton)
                 items.add(new InteractiveImageButtonResponse((InteractiveImageButton) item));
+            if (item instanceof InteractiveText)
+                items.add(new InteractiveTextResponse((InteractiveText) item));
         }
     }
 
@@ -62,7 +64,7 @@ public class EpisodeMetadataResponse {
     private String description;
     private boolean published;
 
-    private List<InteractiveItemResponse> items;
+    private Set<InteractiveItemResponse> items;
 
     private String defaultImageUrl;
 
@@ -71,5 +73,13 @@ public class EpisodeMetadataResponse {
         return new EpisodeMetadataResponse(episode.getGuid(),
                 episode.getTitle(),
                 episode.getDuration());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof EpisodeMetadataResponse) {
+            return ((EpisodeMetadataResponse) obj).guid.equals(guid);
+        }
+        return false;
     }
 }

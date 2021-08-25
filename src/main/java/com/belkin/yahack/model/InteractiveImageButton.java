@@ -1,6 +1,7 @@
 package com.belkin.yahack.model;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
@@ -20,8 +21,11 @@ public class InteractiveImageButton extends InteractiveItem {
         this.buttonUrl = request.getButtonUrl();
     }
 
+    @Column(name = "image_url", columnDefinition = "VARCHAR")
     private String imageUrl;
+    @Column(name = "button_text", columnDefinition = "VARCHAR")
     private String buttonText;
+    @Column(name = "button_url", columnDefinition = "VARCHAR")
     private String buttonUrl;
 
 }

@@ -20,4 +20,11 @@ public class InteractiveItemResponse {
     private Integer timeEnd;
     private String type;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof InteractiveItemResponse) {
+            return ((InteractiveItemResponse) obj).id.equals(id);
+        }
+        return false;
+    }
 }

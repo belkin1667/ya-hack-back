@@ -8,6 +8,7 @@ import java.util.stream.StreamSupport;
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
 import com.belkin.yahack.api.dto.request.InteractiveItemRequest;
 import com.belkin.yahack.api.dto.request.InteractivePollRequest;
+import com.belkin.yahack.api.dto.request.InteractiveTextRequest;
 import com.belkin.yahack.api.dto.request.PodcastCreationRequest;
 import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponse;
@@ -22,6 +23,7 @@ import com.belkin.yahack.model.Episode;
 import com.belkin.yahack.model.InteractiveImageButton;
 import com.belkin.yahack.model.InteractiveItem;
 import com.belkin.yahack.model.InteractivePoll;
+import com.belkin.yahack.model.InteractiveText;
 import com.belkin.yahack.model.Podcast;
 import com.belkin.yahack.serivce.rss.RssUpdater;
 import lombok.RequiredArgsConstructor;
@@ -159,6 +161,8 @@ public class PodcastManagementService {
             item = new InteractiveImageButton((InteractiveImageButtonRequest) itemRequest);
         } else if (itemRequest instanceof InteractivePollRequest) {
             item = new InteractivePoll((InteractivePollRequest) itemRequest);
+        } else if (itemRequest instanceof InteractiveTextRequest) {
+            item = new InteractiveText((InteractiveTextRequest) itemRequest);
         } else {
             throw new RestException(HttpStatus.BAD_REQUEST, "BAD REQUEST");
         }

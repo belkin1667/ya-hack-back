@@ -2,6 +2,7 @@ package com.belkin.yahack.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +28,7 @@ public class InteractivePoll extends InteractiveItem {
         this.correctAnswers = interactivePollRequest.getCorrectAnswers();
         this.multipleOptions = interactivePollRequest.isMultipleOptions();
     }
-
+    @Column(name = "question", columnDefinition = "VARCHAR")
     private String question;
     private boolean multipleOptions;
 

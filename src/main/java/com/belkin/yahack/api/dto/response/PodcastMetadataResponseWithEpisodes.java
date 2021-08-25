@@ -23,7 +23,7 @@ public class PodcastMetadataResponseWithEpisodes {
         this.imageUrl = podcast.getImageUrl();
         this.description = podcast.getDescription();
         Set<Episode> eps = podcast.getEpisodes();
-        this.episodesPreviews = eps.stream().filter(Episode::isPublished).map(EpisodeMetadataResponse::map).collect(Collectors.toList());
+        this.episodesPreviews = eps.stream().filter(Episode::isPublished).map(EpisodeMetadataResponse::map).collect(Collectors.toSet());
     }
 
     public PodcastMetadataResponseWithEpisodes(String id, String title, String imageUrl) {
@@ -37,5 +37,13 @@ public class PodcastMetadataResponseWithEpisodes {
     private String imageUrl;
 
     private String description;
-    private List<EpisodeMetadataResponse> episodesPreviews;
+    private Set<EpisodeMetadataResponse> episodesPreviews;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PodcastMetadataResponseWithEpisodes) {
+            return ((PodcastMetadataResponseWithEpisodes) obj).id.equals(id);
+        }
+        return false;
+    }
 }

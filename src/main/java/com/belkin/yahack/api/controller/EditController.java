@@ -91,10 +91,6 @@ public class EditController {
     }
 
 
-    //todo: add interactive form
-    //todo: add interactive text
-
-
     @PutMapping("/{base64id}/{id}/imagebutton/{base64idItem}")
     public void editInteractiveImageButton(@PathVariable("base64id") String podcastId,
                                             @PathVariable("id") Integer episodeNumber,

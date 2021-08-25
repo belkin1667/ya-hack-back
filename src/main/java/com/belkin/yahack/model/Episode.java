@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -34,6 +36,7 @@ public class Episode {
     }
 
     @Id
+    @Column(name = "guid", columnDefinition = "VARCHAR")
     private String guid;
     /**
      * The position (0 .. inf) of <item> tag in RSS feed
@@ -41,9 +44,13 @@ public class Episode {
     private Integer episodeNumber;
     private Long duration;
     private Long length;
+    @Column(name = "pub_date", columnDefinition = "VARCHAR")
     private String pubDate;
+    @Column(name = "url", columnDefinition = "VARCHAR")
     private String url;
+    @Column(name = "description", columnDefinition = "VARCHAR")
     private String description;
+    @Column(name = "title", columnDefinition = "VARCHAR")
     private String title;
 
     @ManyToOne
@@ -52,7 +59,7 @@ public class Episode {
 
 
     @OneToMany(mappedBy = "episode", fetch= FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<InteractiveItem> items;
+    private Set<InteractiveItem> items;
 
     private boolean published; // can edit items while not published, as soon as published can't edit items
 

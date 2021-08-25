@@ -4,6 +4,7 @@ import com.belkin.yahack.api.dto.response.EpisodeMetadataResponse;
 import com.belkin.yahack.api.dto.response.InteractiveImageButtonResponse;
 import com.belkin.yahack.api.dto.response.InteractiveItemResponse;
 import com.belkin.yahack.api.dto.response.InteractivePollResponse;
+import com.belkin.yahack.api.dto.response.InteractiveTextResponse;
 import com.belkin.yahack.api.dto.response.PodcastMetadataResponseWithEpisodes;
 import com.belkin.yahack.dao.EpisodeDAO;
 import com.belkin.yahack.dao.InteractiveItemDAO;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -88,7 +90,7 @@ public class ListenService {
         return episodeResponse;
     }
 
-    private List<InteractiveItemResponse> getInteractiveItems(List<InteractiveItem> items, String listenerUsername) {
+    private Set<InteractiveItemResponse> getInteractiveItems(Set<InteractiveItem> items, String listenerUsername) {
         return items.stream().map(item -> {
             if (item instanceof InteractivePoll) {
                 InteractivePoll poll = (InteractivePoll) item;
@@ -103,10 +105,13 @@ public class ListenService {
             else if (item instanceof InteractiveImageButton) {
                 return new InteractiveImageButtonResponse((InteractiveImageButton) item);
             }
+            else if (item instanceof InteractiveText){
+                return new InteractiveTextResponse((InteractiveText) item);
+            }
             else {
                 return null;
             }
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toSet());
     }
 
     private EpisodeMetadataResponse getEpisodePreview(Optional<Episode> maybeEpisode) {

@@ -26,4 +26,9 @@ public class InteractiveImageButtonResponse extends InteractiveItemResponse {
     private String imageUrl;
     private String buttonText;
     private String buttonUrl;
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }

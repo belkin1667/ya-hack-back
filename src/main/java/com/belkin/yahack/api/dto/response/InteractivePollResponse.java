@@ -31,4 +31,8 @@ public class InteractivePollResponse extends InteractiveItemResponse {
 
     private boolean canInteract = true;
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }
