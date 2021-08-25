@@ -1,5 +1,12 @@
 # Yandex Mediaservices Hackathon Backend
 
+Фронтенд
+https://github.com/artemgoncharov2000/ya-hack-web 
+https://github.com/artemgoncharov2000/ya-hack-mobile
+
+Презентация
+https://www.figma.com/proto/qFr2R2DNMuhOzu5oTBVWYl/gamma-velorum-presentation?page-id=0%3A1&node-id=4%3A111&viewport=243%2C48%2C0.04&scaling=contain
+
 ## Локальный запуск
 Почитать про Docker можно [тут](https://docker-curriculum.com/)  
   
