@@ -55,4 +55,12 @@ public class Episode {
     private List<InteractiveItem> items;
 
     private boolean published; // can edit items while not published, as soon as published can't edit items
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Episode) {
+            return ((Episode) obj).guid.equals(guid);
+        }
+        return false;
+    }
 }

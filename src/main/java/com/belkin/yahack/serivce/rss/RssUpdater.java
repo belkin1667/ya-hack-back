@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.belkin.yahack.model.Episode;
@@ -48,7 +49,7 @@ public class RssUpdater {
     private List<Episode> update(Podcast podcast, RssChannel feed) {
         podcast.setImageUrl(feed.getImage().getUrl());
         podcast.setLink(feed.getLink());
-        List<Episode> episodes = podcast.getEpisodes();
+        Set<Episode> episodes = podcast.getEpisodes();
         List<Episode> newEpisodes = new ArrayList<>();
         List<RssEpisode> rssEpisodes = feed.getEpisodes();
         if (rssEpisodes == null || rssEpisodes.size() == 0)

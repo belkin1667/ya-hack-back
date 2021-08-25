@@ -27,23 +27,17 @@ public class ListenController {
         return listenService.getPodcastIdList();
     }
 
-    /*@GetMapping("/podcasts/{base64id}")
-    public PodcastMetadataResponse getPodcastMetadata(@PathVariable("base64id") String podcastId,
-                                                      @RequestParam(value = "preview", defaultValue = "false") Boolean preview) {
-        if (preview)
-            return listenService.getPodcastPreview(podcastId);
-        else
-            return listenService.getPodcast(podcastId);
-    }*/
-
 
     @GetMapping("/podcasts/{base64id}")
     public PodcastMetadataResponseWithEpisodes getPodcastMetadata(@PathVariable("base64id") String podcastId,
                                                                   @RequestParam(value = "preview", defaultValue = "false") Boolean preview) {
         if (preview)
             return listenService.getPodcastPreview(podcastId);
-        else
-            return listenService.getPodcast(podcastId);
+        else {
+            PodcastMetadataResponseWithEpisodes result = listenService.getPodcast(podcastId);
+            return result;
+        }
+
     }
 
     @GetMapping("/podcasts/{base64id}/episodes")

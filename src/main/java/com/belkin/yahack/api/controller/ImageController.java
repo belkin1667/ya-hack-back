@@ -39,7 +39,7 @@ public class ImageController {
     @PostMapping("/edit")
     public String addImage(@RequestParam("file") MultipartFile file, @RequestHeader("username") String username) {
         // при загрузке картинки генерируем Base64 id для нее и его возвращаем, сохраняем картинку в файловой системе или удаленно, сохраняем в БД ImageMetadata
-        return imageService.upload(username, file);
+        return "localhost:8080/i/" + imageService.upload(username, file);
     }
 
     @DeleteMapping(path ="/edit/{base64id}")

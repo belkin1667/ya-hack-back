@@ -68,6 +68,8 @@ public class EpisodeMetadataResponse {
 
 
     public static EpisodeMetadataResponse map(Episode episode) {
-        return new EpisodeMetadataResponse(episode.getGuid(), episode.getTitle(), episode.getDuration());
+        return new EpisodeMetadataResponse(episode.getGuid(),
+                episode.getTitle(),
+                episode.getDuration());
     }
 }

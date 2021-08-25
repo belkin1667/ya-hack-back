@@ -1,6 +1,7 @@
 package com.belkin.yahack.api.dto.response;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.belkin.yahack.model.Episode;
@@ -21,7 +22,8 @@ public class PodcastMetadataResponseWithEpisodes {
         this.title = podcast.getTitle();
         this.imageUrl = podcast.getImageUrl();
         this.description = podcast.getDescription();
-        this.episodesPreviews = podcast.getEpisodes().stream().map(EpisodeMetadataResponse::map).collect(Collectors.toList());
+        Set<Episode> eps = podcast.getEpisodes();
+        this.episodesPreviews = eps.stream().filter(Episode::isPublished).map(EpisodeMetadataResponse::map).collect(Collectors.toList());
     }
 
     public PodcastMetadataResponseWithEpisodes(String id, String title, String imageUrl) {

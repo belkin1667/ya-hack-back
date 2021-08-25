@@ -9,7 +9,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -29,7 +31,7 @@ public class Podcast {
         this.title = podcast.getTitle();
         this.description = podcast.getDescription();
         this.author = author;
-        this.episodes = new ArrayList<>();
+        this.episodes = new HashSet<>();
     }
 
     /**
@@ -59,6 +61,14 @@ public class Podcast {
     private String imageUrl;
 
     @OneToMany(mappedBy = "podcast", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Episode> episodes;
+    private Set<Episode> episodes;
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Podcast) {
+            return ((Podcast) obj).id.equals(id);
+        }
+        return false;
+    }
 }

@@ -19,7 +19,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "interactive_item")
 public class InteractiveItem {
 
-
     public InteractiveItem(InteractiveItemRequest request) {
         this.timeStart = request.getTimeStart();
         this.timeEnd = request.getTimeEnd();
@@ -36,4 +35,11 @@ public class InteractiveItem {
     @JoinColumn(name="episode_guid", nullable = false)
     private Episode episode;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof InteractiveItem) {
+            return ((InteractiveItem) obj).id.equals(id);
+        }
+        return false;
+    }
 }
