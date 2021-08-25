@@ -148,34 +148,41 @@ public class PodcastManagementService {
     }
 
     private EpisodeMetadataResponse getEpisode(Optional<Episode> maybeEpisode) {
-        if (maybeEpisode.isPresent())
-            return new EpisodeMetadataResponse(maybeEpisode.get());
+        if (maybeEpisode.isPresent()) {
+            EpisodeMetadataResponse resp = new EpisodeMetadataResponse(maybeEpisode.get());
+            return resp;
+        }
         throw new EpisodeNotFoundException();
     }
 
 
     public String addInteractiveItem(String episodeId, InteractiveItemRequest itemRequest) {
         Episode episode = episodeDAO.findById(episodeId).orElseThrow(() -> new EpisodeNotFoundException(episodeId));
-        InteractiveItem item = null;
         if (itemRequest instanceof InteractiveImageButtonRequest) {
-            item = new InteractiveImageButton((InteractiveImageButtonRequest) itemRequest);
+            InteractiveImageButton item = new InteractiveImageButton((InteractiveImageButtonRequest) itemRequest);
+            item.setEpisode(episode);
+            itemDAO.save(item);
+            return item.getId();
         } else if (itemRequest instanceof InteractivePollRequest) {
-            item = new InteractivePoll((InteractivePollRequest) itemRequest);
+            InteractivePoll item = new InteractivePoll((InteractivePollRequest) itemRequest);
+            item.setEpisode(episode);
+            itemDAO.save(item);
+            return item.getId();
         } else if (itemRequest instanceof InteractiveTextRequest) {
-            item = new InteractiveText((InteractiveTextRequest) itemRequest);
-        } else {
-            throw new RestException(HttpStatus.BAD_REQUEST, "BAD REQUEST");
+            InteractiveText item = new InteractiveText((InteractiveTextRequest) itemRequest);
+            item.setEpisode(episode);
+            itemDAO.save(item);
+            return item.getId();
         }
-        item.setEpisode(episode);
-        itemDAO.save(item);
-        return item.getId();
+        throw new RestException(HttpStatus.BAD_REQUEST, "BAD REQUEST");
     }
 
     public EpisodeMetadataResponse getEpisode(String episodeId, String username) {
         if (!isAuthorOfEpisode(episodeId, username)) {
             throw new AccessDeniedException(String.format("User %s is not an author of episode %s", username, episodeId));
         }
-        return getEpisode(episodeDAO.findById(episodeId));
+        Optional<Episode> episode = episodeDAO.findById(episodeId);
+        return getEpisode(episode);
     }
 
     public EpisodeMetadataResponse getEpisodePreview(String episodeId, String username) {

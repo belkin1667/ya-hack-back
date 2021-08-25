@@ -1,6 +1,8 @@
 package com.belkin.yahack.api.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.belkin.yahack.api.dto.request.InteractiveImageButtonRequest;
 import com.belkin.yahack.api.dto.request.InteractiveItemRequest;
@@ -79,9 +81,11 @@ public class EditController {
 
 
     @PostMapping("/episodes/{guid}/all")
-    public void addInteractiveItems(@PathVariable("guid") String episodeId,
-                                            @RequestBody List<InteractiveItemRequest> items) {
-        items.forEach(item -> podcastManagementService.addInteractiveItem(episodeId, item));
+    public Set<String> addInteractiveItems(@PathVariable("guid") String episodeId,
+                                            @RequestBody Set<InteractiveItemRequest> items) {
+        Set<String> ids = new HashSet<>();
+        items.forEach(item -> ids.add(podcastManagementService.addInteractiveItem(episodeId, item)));
+        return ids;
     }
 
     @PostMapping("/episodes/{guid}")
